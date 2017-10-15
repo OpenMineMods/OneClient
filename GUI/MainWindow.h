@@ -10,7 +10,16 @@ public:
 
     Ui_MainWindow _ui;
 
-    QString _config_dir;
-    QString _data_dir;
-    QString _cache_dir;
+    QString m_sSettingsFile;
+
+    static QString config_dir;
+    static QString data_dir;
+    static QString cache_dir;
+
+private:
+
+    void loadSettings();
+    void saveSettings();
+
+    QString conf_file;
 };

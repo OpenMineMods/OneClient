@@ -1,7 +1,13 @@
 #include "MainWindow.h"
+#include "InitialSetup.h"
 #include "utils.h"
 #include <iostream>
+#include <sys/stat.h>
 #include <QStandardPaths>
+
+QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     _ui.setupUi(this);
@@ -9,7 +15,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     QString style = Utils::loadStyleSheet("main");
     this->setStyleSheet(style);
 
-    _config_dir = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
-    _data_dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    _cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QSettings settings(config_dir + "/oneclient.ini", QSettings::NativeFormat);
+
+    if (!settings.value("setup_done", false).toBool()) {
+        qDebug() << "Showing Initial Setup";
+        InitialSetupWindow w;
+        qDebug() << w.exec();
+    }
 }
