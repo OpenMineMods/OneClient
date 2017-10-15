@@ -26,14 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         GUI/MainWindow.cpp \
-        utils.cpp
+        utils.cpp \
+        GUI/InitialSetup.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
-        utils.h
+        utils.h \
+        GUI/InitialSetup.h
 
 FORMS += \
-        UI/MainWindow.ui
+        UI/MainWindow.ui \
+        UI/SetupDialog.ui
 
 RESOURCES += \
         Assets/icons.qrc
