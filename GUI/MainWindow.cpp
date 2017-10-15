@@ -5,10 +5,6 @@
 #include <sys/stat.h>
 #include <QStandardPaths>
 
-QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     _ui.setupUi(this);
 
