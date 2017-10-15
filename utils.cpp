@@ -2,11 +2,7 @@
 #include <regex>
 #include <iostream>
 #include <string>
-
-Utils::Utils()
-{
-
-}
+#include <time.h>
 
 QString Utils::loadStyleSheet(QString name) {
     QFile stylesheet(":/style/" + name + ".qss");
@@ -44,4 +40,13 @@ QString Utils::loadStyleSheet(QString name) {
         s_stylesheet = m.suffix().str();
     }
     return QString::fromStdString(orig_stylesheet);
+}
+
+QString Utils::generateUUID() {
+    srand(time(NULL));
+    char buffer[64];
+    sprintf(buffer, "%x%x-%x%x-%x%x-%x%x",
+            rand(), rand(), rand(), rand(),
+            rand(), rand(), rand(), rand());
+    return QString(buffer);
 }

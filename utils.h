@@ -7,9 +7,9 @@
 class Utils
 {
 public:
-    Utils();
-
     static QString loadStyleSheet(QString name);
+
+    static QString generateUUID();
 };
 
 #endif // UTILS_H

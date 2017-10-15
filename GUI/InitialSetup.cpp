@@ -13,6 +13,10 @@ InitialSetupWindow::InitialSetupWindow(QWidget *parent, Qt::WindowFlags flags) :
     conf_file = MainWindow::config_dir + "/oneclient.ini";
     QSettings settings(conf_file, QSettings::NativeFormat);
 
+    if (!settings.value("analytics/uuid", false).toBool()) {
+        settings.setValue("analytics/uuid", Utils::generateUUID());
+    }
+
     _ui.tabWidget->setTabEnabled(1, false);
     _ui.tabWidget->setTabEnabled(2, false);
     QObject::connect(_ui.pushButton, &QPushButton::clicked, this, &InitialSetupWindow::nextTab);
@@ -26,7 +30,8 @@ void InitialSetupWindow::nextTab() {
         _ui.tabWidget->setTabEnabled(1, false);
         QSettings settings(conf_file, QSettings::NativeFormat);
         settings.setValue("setup_done", true);
-        this->done(1);
+        settings.setValue("analytics/enabled", _ui.analytics->isChecked());
+        settings.setValue("autoupdate", _ui.autoupdate->isChecked());
         return;
     }
     _ui.tabWidget->setTabEnabled(ind + 1, true);
