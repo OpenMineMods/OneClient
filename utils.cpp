@@ -9,7 +9,7 @@ Utils::Utils()
 }
 
 QString Utils::loadStyleSheet(QString name) {
-    QFile stylesheet(":/style/main.qss");
+    QFile stylesheet(":/style/" + name + ".qss");
     stylesheet.open(QFile::ReadOnly);
     std::string s_stylesheet = QString(stylesheet.readAll()).toStdString();
     std::string orig_stylesheet = s_stylesheet;
