@@ -25,10 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        GUI/MainWindow.cpp
+        GUI/MainWindow.cpp \
+        utils.cpp
 
 HEADERS += \
-        GUI/MainWindow.h
+        GUI/MainWindow.h \
+        utils.h
 
 FORMS += \
         UI/MainWindow.ui
+
+RESOURCES += \
+        Assets/icons.qrc
