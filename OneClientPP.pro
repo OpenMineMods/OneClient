@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         GUI/MainWindow.cpp \
         utils.cpp \
-        GUI/InitialSetup.cpp
+        GUI/InitialSetup.cpp \
+    DownloadUtil.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
         utils.h \
-        GUI/InitialSetup.h
+        GUI/InitialSetup.h \
+    DownloadUtil.h
 
 FORMS += \
         UI/MainWindow.ui \

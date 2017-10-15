@@ -9,6 +9,7 @@ public:
     InitialSetupWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
     void nextTab();
+    int inf(FILE *source, FILE *dest);
 
     Ui_SetupDialog _ui;
 private:

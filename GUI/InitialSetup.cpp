@@ -1,8 +1,10 @@
 #include "InitialSetup.h"
 #include "MainWindow.h"
 #include "utils.h"
+#include "DownloadUtil.h"
 
 #include <QSettings>
+#include <QByteArray>
 
 InitialSetupWindow::InitialSetupWindow(QWidget *parent, Qt::WindowFlags flags) : QDialog(parent, flags) {
     _ui.setupUi(this);
@@ -32,6 +34,9 @@ void InitialSetupWindow::nextTab() {
         settings.setValue("setup_done", true);
         settings.setValue("analytics/enabled", _ui.analytics->isChecked());
         settings.setValue("autoupdate", _ui.autoupdate->isChecked());
+        DownloadUtil::downloadFile("https://openminemods.digitalfishfun.com/raw_cleaned.json.xz", MainWindow::cache_dir + "/meta.json.xz");
+        system(("xz -d " + MainWindow::cache_dir + "/meta.json.xz").toStdString().c_str());
+        done(1);
         return;
     }
     _ui.tabWidget->setTabEnabled(ind + 1, true);

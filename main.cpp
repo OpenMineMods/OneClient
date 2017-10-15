@@ -1,5 +1,6 @@
 #include "GUI/MainWindow.h"
 #include <QApplication>
+#include <QDir>
 
 QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
 QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
@@ -33,6 +34,10 @@ int main(int argc, char *argv[])
         MainWindow::cache_dir = targetDir + "/cache";
         qDebug() << MainWindow::config_dir;
     }
+
+    QDir().mkdir(MainWindow::data_dir);
+    QDir().mkdir(MainWindow::config_dir);
+    QDir().mkdir(MainWindow::cache_dir);
 
     MainWindow w;
     w.show();
