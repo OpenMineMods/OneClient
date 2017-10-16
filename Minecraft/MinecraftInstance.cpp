@@ -7,7 +7,7 @@ MinecraftInstance::MinecraftInstance(QString baseDir) {
 
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
 
-    if (QDir().mkpath(m_baseDir)) {
+    if (settings.value("instance/time_created", -1) < 0) {
         setupInstance();
     }
 }
@@ -15,7 +15,7 @@ MinecraftInstance::MinecraftInstance(QString baseDir) {
 void MinecraftInstance::setupInstance() {
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
 
-    settings.setValue("instance/name", "Unnamed Instance");
+    settings.setValue("instance/name", m_baseDir.section('/', -1));
     settings.setValue("instance/time_created", QDateTime::currentMSecsSinceEpoch());
     settings.setValue("instance/playtime", 0);
     settings.setValue("instance/last_launch", 0);
@@ -33,7 +33,12 @@ void MinecraftInstance::setVersion(QString minecraft, QString forge) {
     settings.setValue("minecraft/forge", forge);
 }
 
-QString MinecraftInstance::getIcon() {
+QString MinecraftInstance::getIcon() const {
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
     return settings.value("instance/icon", "default.svg").toString();
+}
+
+QString MinecraftInstance::getName() const {
+    QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
+    return settings.value("instance/name", "Unnamed Instance").toString();
 }

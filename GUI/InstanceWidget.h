@@ -11,5 +11,8 @@ class InstanceWidget : public QWidget {
 public:
     InstanceWidget(const MinecraftInstance* instance, QWidget* parent = 0);
 
+    void paintEvent(QPaintEvent *e);
+
     Ui_InstanceWidget _ui;
+    QString icon_filename;
 };

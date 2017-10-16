@@ -35,6 +35,7 @@ private:
 
     QString conf_file;
     QList<QWidget*> browse_widgets;
+    QList<QWidget*> instance_widgets;
     QWidget ad_img;
     FlowLayout* fl;
 };
