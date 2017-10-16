@@ -43,6 +43,6 @@ public:
     static CurseFile* file_from_json(const QJsonObject &j);
 
 private:
-    QJsonObject raw_data;
     QList<CurseProject> projects;
+    QList<CurseFile> files;
 };

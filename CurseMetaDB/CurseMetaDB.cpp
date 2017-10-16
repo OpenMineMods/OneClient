@@ -9,13 +9,18 @@ CurseMetaDB::CurseMetaDB() {
 }
 
 void CurseMetaDB::load(QByteArray meta) {
-    raw_data = QJsonDocument::fromJson(meta).object();
+    QJsonObject raw_data = QJsonDocument::fromJson(meta).object();
     QJsonObject raw_projects = raw_data.value("projects").toObject();
+    QJsonObject raw_files = raw_data.value("files").toObject();
     QStringListIterator iter(raw_projects.keys());
     while (iter.hasNext()) {
         projects.append(*CurseMetaDB::project_from_json(raw_projects[iter.next()].toObject()));
     }
-    qDebug() << "Loaded " << projects.size() << " projects";
+    QStringListIterator iter2(raw_files.keys());
+    while (iter2.hasNext()) {
+        files.append(*CurseMetaDB::file_from_json(raw_files[iter2.next()].toObject()));
+    }
+    qDebug() << "Loaded" << projects.size() << "projects and" << files.size() << "files.";
 }
 
 CurseMetaDB::CurseProject* CurseMetaDB::project_from_json(const QJsonObject &j) {
@@ -37,4 +42,18 @@ CurseMetaDB::CurseProject* CurseMetaDB::project_from_json(const QJsonObject &j) 
     project->attachments = j["attachments"].toArray();
 
     return project;
+}
+
+CurseMetaDB::CurseFile* CurseMetaDB::file_from_json(const QJsonObject &j) {
+    CurseFile* file = new CurseMetaDB::CurseFile();
+
+    file->id = j["id"].toInt();
+    file->date = j["date"].toInt();
+    file->versions = j["versions"].toArray();
+    file->deps = j["dependencies"].toArray();
+    file->dl = j["url"].toString();
+    file->filename = j["filename"].toString();
+    file->project = j["project"].toInt();
+
+    return file;
 }
