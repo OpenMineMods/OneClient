@@ -2,6 +2,8 @@
 #include "MainWindow.h"
 #include "Utils.h"
 #include "DownloadUtil.h"
+#include "Minecraft/Yggdrasil.h"
+#include "Minecraft/AuthSession.h"
 
 #include <QSettings>
 #include <QByteArray>
@@ -19,15 +21,22 @@ InitialSetupWindow::InitialSetupWindow(QWidget *parent, Qt::WindowFlags flags) :
         settings.setValue("analytics/uuid", Utils::generateUUID());
     }
 
-    _ui.tabWidget->setTabEnabled(1, false);
-    _ui.tabWidget->setTabEnabled(2, false);
+    _ui.tabWidget->setTabEnabled(3, false);
     QObject::connect(_ui.pushButton, &QPushButton::clicked, this, &InitialSetupWindow::nextTab);
     QObject::connect(_ui.pushButton_2, &QPushButton::clicked, this, &InitialSetupWindow::nextTab);
+    connect(_ui.pushButton_3, &QPushButton::clicked, this, &InitialSetupWindow::nextTab);
 }
 
 void InitialSetupWindow::nextTab() {
     int ind = _ui.tabWidget->currentIndex();
-    if (ind == 1) {
+    if (ind == 2) {
+        AuthSession ses = Yggdrasil::login(_ui.login_username->text(), _ui.login_password->text());
+        if (!ses.is_valid) {
+            _ui.login_label->setText("Invalid Login!");
+            return;
+        }
+        _ui.login_label->setText("Logged in as " + ses.profile.name);
+        return;
         _ui.tabWidget->setTabEnabled(0, false);
         _ui.tabWidget->setTabEnabled(1, false);
         QSettings settings(conf_file, QSettings::NativeFormat);

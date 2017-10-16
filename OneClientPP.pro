@@ -41,8 +41,7 @@ SOURCES += \
     GUI/FlowLayout.cpp \
     GUI/InstanceWidget.cpp \
     Minecraft/Yggdrasil.cpp \
-    Minecraft/AuthSession.cpp \
-    GUI/LoginDialog.cpp
+    Minecraft/AuthSession.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -62,15 +61,13 @@ HEADERS += \
         GUI/FlowLayout.h \
         GUI/InstanceWidget.h \
         Minecraft/Yggdrasil.h \
-        Minecraft/AuthSession.h \
-        GUI/LoginDialog.h
+        Minecraft/AuthSession.h
 
 FORMS += \
         UI/MainWindow.ui \
         UI/SetupDialog.ui \
         UI/PackWidget.ui \
-        UI/InstanceWidget.ui \
-    UI/LoginDialog.ui
+        UI/InstanceWidget.ui
 
 RESOURCES += \
         Assets/icons.qrc

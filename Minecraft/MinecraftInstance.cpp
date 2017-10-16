@@ -19,10 +19,12 @@ void MinecraftInstance::setupInstance() {
     settings.setValue("instance/time_created", QDateTime::currentMSecsSinceEpoch());
     settings.setValue("instance/playtime", 0);
     settings.setValue("instance/last_launch", 0);
-    settings.setValue("instance/icon", "default.svg");
+    settings.setValue("instance/icon", "default");
 
     settings.setValue("minecraft/version", "1.7.10");
     settings.setValue("minecraft/forge", "10.13.4.1614");
+
+    settings.setValue("modpack/id", -1);
     QDir().mkpath(m_mcDir);
 }
 

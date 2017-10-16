@@ -2,7 +2,6 @@
 #include "InitialSetup.h"
 #include "PackWidget.h"
 #include "InstanceWidget.h"
-#include "LoginDialog.h"
 #include "Utils.h"
 #include <iostream>
 #include "FlowLayout.h"
