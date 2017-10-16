@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "InitialSetup.h"
 #include "PackWidget.h"
+#include "InstanceWidget.h"
 #include "Utils.h"
 #include <iostream>
 #include "FlowLayout.h"
@@ -28,7 +29,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     QStringList instanceFolders = QDir(MainWindow::data_dir + "/instances").entryList();
     QList<MinecraftInstance> instances;
     for (int i = 0; i < instanceFolders.length(); ++i) {
-        instances.append(MinecraftInstance(instanceFolders[i]));
+        if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
+        instances.append(MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
     }
     populateInstances(instances);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
@@ -55,6 +57,12 @@ void MainWindow::populateBrowse(QList<CurseMetaDB::CurseProject> projects) {
 
 void MainWindow::populateInstances(QList<MinecraftInstance> instances) {
     Utils::clearLayout(fl);
+
+    QListIterator<MinecraftInstance> iter(instances);
+    while (iter.hasNext()) {
+        instance_widgets.append(new InstanceWidget(&iter.next()));
+        fl->addWidget(instance_widgets[instance_widgets.length()-1]);
+    }
 
     QWidget* addInstance = new QWidget();
     addInstance->setStyleSheet(".QWidget { border-image: url(:/icons/new_instance.svg) }");

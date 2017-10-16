@@ -11,7 +11,8 @@ public:
 
     void setVersion(QString minecraft, QString forge);
 
-    QString getIcon();
+    QString getIcon() const;
+    QString getName() const;
 
 private:
     void setupInstance();
