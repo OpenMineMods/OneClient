@@ -2,6 +2,7 @@
 #include <QString>
 #include <QList>
 #include <QJsonObject>
+#include <QJsonArray>
 
 class CurseMetaDB {
 public:
@@ -20,27 +21,28 @@ public:
         ProjectType type;
         QString title;
         QString primaryAuthor;
-        QList<QString> authors;
+        QJsonArray authors;
         QString desc;
         QString page;
-        QList<QString> versions;
-        QList<int> files;
-        QList<int> attachments;
+        QJsonArray versions;
+        QJsonArray files;
+        QJsonArray attachments;
     };
 
     struct CurseFile {
         int id;
         int date;
-        QList<QString> versions;
-        QList<int> deps;
+        QJsonArray versions;
+        QJsonArray deps;
         QString dl;
         QString filename;
         int project;
     };
 
-    static CurseProject project_from_json(const QJsonObject& j);
-    static CurseFile file_from_json(const QJsonObject& j);
+    static CurseProject* project_from_json(const QJsonObject &j);
+    static CurseFile* file_from_json(const QJsonObject &j);
 
 private:
     QJsonObject raw_data;
+    QList<CurseProject> projects;
 };
