@@ -18,4 +18,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         InitialSetupWindow w;
         qDebug() << w.exec();
     }
+
+    QFile metaFile(cache_dir + "/meta.json");
+    metaFile.open(QIODevice::ReadOnly);
+    QTextStream in(&metaFile);
+    MainWindow::db = CurseMetaDB(in.readAll());
 }

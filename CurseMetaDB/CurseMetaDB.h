@@ -3,9 +3,11 @@
 #include "json.hpp"
 #include <QList>
 
+using json = nlohmann::json;
+
 class CurseMetaDB {
 public:
-    CurseMetaDB();
+    CurseMetaDB(QString meta);
 
     enum ProjectType {
         MOD,
@@ -17,11 +19,11 @@ public:
     struct CurseProject {
         int id;
         ProjectType type;
-        QString title;
-        int primaryAuthor;
-        QList<int> authors;
-        QString desc;
-        QString page;
+        std::string title;
+        std::string primaryAuthor;
+        QList<QString> authors;
+        std::string desc;
+        std::string page;
         QList<QString> versions;
         QList<int> files;
         QList<int> attachments;
@@ -32,8 +34,14 @@ public:
         int date;
         QList<QString> versions;
         QList<int> deps;
-        QString dl;
-        QString filename;
+        std::string dl;
+        std::string filename;
         int project;
     };
+
+    CurseProject project_from_json(const json& j);
+    CurseFile file_from_json(const json& j);
+
+private:
+    json raw_data;
 };

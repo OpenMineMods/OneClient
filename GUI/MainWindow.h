@@ -2,6 +2,7 @@
 
 #include <QtWidgets>
 #include "ui_MainWindow.h"
+#include "CurseMetaDB/CurseMetaDB.h"
 
 class MainWindow : public QMainWindow {
 public:
@@ -15,6 +16,8 @@ public:
     static QString config_dir;
     static QString data_dir;
     static QString cache_dir;
+
+    static CurseMetaDB db;
 
 private:
 
