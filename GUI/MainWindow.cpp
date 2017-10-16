@@ -78,6 +78,7 @@ void MainWindow::populateInstances(QList<MinecraftInstance> instances) {
 }
 
 void MainWindow::searchChanged() {
+     Utils::clearLayout(_ui.pack_box);
     if (_ui.pack_search->text() == "") {
         populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     } else {
