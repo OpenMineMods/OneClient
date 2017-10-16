@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <QStandardPaths>
 
+
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     _ui.setupUi(this);
 
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     QFile metaFile(cache_dir + "/meta.json");
     metaFile.open(QIODevice::ReadOnly);
     MainWindow::db.load(metaFile.readAll());
+
     QStringList instanceFolders = QDir(MainWindow::data_dir + "/instances").entryList();
     QList<MinecraftInstance> instances;
     for (int i = 0; i < instanceFolders.length(); ++i) {
@@ -33,10 +35,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         instances.append(MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
     }
     populateInstances(instances);
+    Utils::clearLayout(_ui.pack_box);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
-
     connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
     connect(_ui.pack_search, &QLineEdit::returnPressed, this, &MainWindow::searchChanged);
+    connect(_ui.mainTabs,&QTabWidget::currentChanged,this,&MainWindow::changeTab);
+    connect(_ui.pack_scroll->verticalScrollBar(),&QScrollBar::valueChanged,this,&MainWindow::scrollBrowse);
 
     _ui.scroll_box_w->setLayout(fl);
 
@@ -46,13 +50,15 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
 }
 
 void MainWindow::populateBrowse(QList<CurseMetaDB::CurseProject> projects) {
-    Utils::clearLayout(_ui.pack_box);
+    MainWindow::page++;
+    MainWindow::busy = true;
     QListIterator<CurseMetaDB::CurseProject> iter(projects);
     while (iter.hasNext()) {
         browse_widgets.append(new PackWidget(&iter.next()));
         _ui.pack_box->addWidget(browse_widgets[browse_widgets.length()-1]);
     }
     _ui.pack_box->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
+    MainWindow::busy = false;
 }
 
 void MainWindow::populateInstances(QList<MinecraftInstance> instances) {
@@ -82,4 +88,24 @@ void MainWindow::searchChanged() {
 
 void MainWindow::resizeEvent(QResizeEvent*) {
     ad_img.move(this->width() - ad_img.width() - 10, 10);
+}
+
+void MainWindow::changeTab(int tab) {
+
+    switch(tab) {
+        case 1 :
+            Utils::clearLayout(_ui.pack_box);
+            populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
+            break;
+        case 2 :
+            break;
+    }
+}
+const int pageIncrement = 25;
+void MainWindow::scrollBrowse(int position) {
+    if(!MainWindow::busy && position >= _ui.pack_scroll->verticalScrollBar()->maximum()) {
+        int start = pageIncrement*MainWindow::page+1, end = start+pageIncrement-1;
+        qDebug() << "Loading page " << MainWindow::page << "," << start << "," << end;
+        populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK, start,end));
+    }
 }

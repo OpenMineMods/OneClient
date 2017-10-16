@@ -61,6 +61,7 @@ QScrollBar:vertical {
 
 QScrollBar::handle:vertical {
     background-color:$button-color;
+    min-height: 20px;
 }
 
 QScrollBar:left-arrow:vertical {

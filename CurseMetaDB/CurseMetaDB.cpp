@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <string>
 #include <Fuzz/fuzzywuzzy.hpp>
+#include <algorithm>
 
 CurseMetaDB::CurseMetaDB() {
 
@@ -29,7 +30,7 @@ void CurseMetaDB::load(QByteArray meta) {
     qDebug() << "Loaded" << projects.size() << "projects and" << files.size() << "files.";
 }
 
-QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int limit) {
+QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int start, const int end) {
     QList<CurseProject> results;
     QList<QPair<CurseProject, int>> candidates;
     QListIterator<CurseProject> iter(projects.values());
@@ -49,15 +50,19 @@ QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const 
     }
     if (query == "*") {
         std::sort(results.begin(), results.end(), CurseMetaDB::compare_projects);
-        results.erase(results.begin() + limit, results.end());
+        QMutableListIterator<CurseProject> iter(results);
+        int i = 0;
+        while(iter.hasNext()) {
+            iter.next();
+            if ( i < start || i > end) {
+                iter.remove();
+            }
+            i++;
+        }
     } else {
         std::sort(candidates.begin(), candidates.end(), CurseMetaDB::compareCloseness);
-        QListIterator<QPair<CurseProject, int>> iter2(candidates);
-        while (iter2.hasNext()) {
-            results.append(iter2.next().first);
-            if (results.length() >= limit) {
-                break;
-            }
+        for(int i = start; i < std::min(candidates.size(),end);i++){
+            results.append(candidates[i].first);
         }
     }
     return results;

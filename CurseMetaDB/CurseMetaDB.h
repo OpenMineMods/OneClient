@@ -44,7 +44,7 @@ public:
         int project;
     };
 
-    QList<CurseProject> search(const QString query, const ProjectType projectType, const int limit = 25);
+    QList<CurseProject> search(const QString query, const ProjectType projectType, const int start = 0, const int end = 25);
 
     static CurseProject project_from_json(const QJsonObject &j);
     static CurseFile file_from_json(const QJsonObject &j);
