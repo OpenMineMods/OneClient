@@ -3,6 +3,8 @@
 #include <QJsonArray>
 #include <QStringListIterator>
 #include <QDebug>
+#include <string>
+#include <Fuzz/fuzzywuzzy.hpp>
 
 CurseMetaDB::CurseMetaDB() {
 
@@ -29,25 +31,44 @@ void CurseMetaDB::load(QByteArray meta) {
 
 QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int limit) {
     QList<CurseProject> results;
+    QList<QPair<CurseProject, int>> candidates;
     QListIterator<CurseProject> iter(projects.values());
     CurseProject project;
+    int title_partial;
+    int title_full;
     while (iter.hasNext()) {
         project = iter.next();
         if (project.type != projectType) continue;
         if (query == "*") {
             results.append(project);
+            continue;
         }
-        // TODO: Matching
+        title_partial = fuzz::partial_ratio(query.toStdString(), project.title.toStdString());
+        title_full = fuzz::ratio(query.toStdString(), project.title.toStdString());
+        candidates.append(QPair<CurseProject, int>(project, title_partial + title_full));
     }
     if (query == "*") {
         std::sort(results.begin(), results.end(), CurseMetaDB::compare_projects);
         results.erase(results.begin() + limit, results.end());
+    } else {
+        std::sort(candidates.begin(), candidates.end(), CurseMetaDB::compareCloseness);
+        QListIterator<QPair<CurseProject, int>> iter2(candidates);
+        while (iter2.hasNext()) {
+            results.append(iter2.next().first);
+            if (results.length() >= limit) {
+                break;
+            }
+        }
     }
     return results;
 }
 
 bool CurseMetaDB::compare_projects(const CurseProject &p1, const CurseProject &p2) {
     return p1.popularity > p2.popularity;
+}
+
+bool CurseMetaDB::compareCloseness(const QPair<CurseProject, int> p1, const QPair<CurseProject, int> p2) {
+    return p1.second > p2.second;
 }
 
 CurseMetaDB::CurseProject CurseMetaDB::project_from_json(const QJsonObject &j) {

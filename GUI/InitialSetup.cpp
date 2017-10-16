@@ -1,6 +1,6 @@
 #include "InitialSetup.h"
 #include "MainWindow.h"
-#include "utils.h"
+#include "Utils.h"
 #include "DownloadUtil.h"
 
 #include <QSettings>

@@ -1,6 +1,6 @@
 #include "PackWidget.h"
 #include "MainWindow.h"
-#include "utils.h"
+#include "Utils.h"
 #include "BackgroundDownloader.h"
 
 PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent) : QWidget(parent) {

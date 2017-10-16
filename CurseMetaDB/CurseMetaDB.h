@@ -50,6 +50,7 @@ public:
     static CurseFile file_from_json(const QJsonObject &j);
 
     static bool compare_projects(const CurseProject &p1, const CurseProject &p2);
+    static bool compareCloseness(const QPair<CurseProject, int>, const QPair<CurseProject, int>);
 
 private:
     QMap<int, CurseProject> projects;

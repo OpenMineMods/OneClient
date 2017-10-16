@@ -26,21 +26,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         GUI/MainWindow.cpp \
-        utils.cpp \
         GUI/InitialSetup.cpp \
         DownloadUtil.cpp \
         CurseMetaDB/CurseMetaDB.cpp \
         GUI/PackWidget.cpp \
-    BackgroundDownloader.cpp
+        BackgroundDownloader.cpp \
+        Fuzz/fuzzywuzzy.cpp \
+        Fuzz/utils.cpp \
+        Fuzz/levenshtein.c \
+        Fuzz/string_matcher.cpp \
+        Fuzz/wrapper.cpp \
+    Utils.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
-        utils.h \
         GUI/InitialSetup.h \
         DownloadUtil.h \
         CurseMetaDB/CurseMetaDB.h \
-    GUI/PackWidget.h \
-    BackgroundDownloader.h
+        GUI/PackWidget.h \
+        BackgroundDownloader.h \
+        Fuzz/fuzzywuzzy.hpp \
+        Fuzz/utils.hpp \
+        Fuzz/common.hpp \
+        Fuzz/levenshtein.h \
+        Fuzz/string_matcher.hpp \
+        Fuzz/wrapper.hpp \
+    Utils.h
 
 FORMS += \
         UI/MainWindow.ui \
