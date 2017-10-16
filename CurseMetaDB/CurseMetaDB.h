@@ -1,6 +1,7 @@
 #pragma once
 #include <QString>
 #include <QList>
+#include <QMap>
 #include <QJsonObject>
 #include <QJsonArray>
 
@@ -24,6 +25,7 @@ public:
         QJsonArray authors;
         QString desc;
         QString page;
+        double popularity;
         QJsonArray versions;
         QJsonArray files;
         QJsonArray attachments;
@@ -39,10 +41,14 @@ public:
         int project;
     };
 
-    static CurseProject* project_from_json(const QJsonObject &j);
-    static CurseFile* file_from_json(const QJsonObject &j);
+    QList<CurseProject> search(const QString query, const ProjectType projectType, const int limit = 0);
+
+    static CurseProject project_from_json(const QJsonObject &j);
+    static CurseFile file_from_json(const QJsonObject &j);
+
+    static bool compare_projects(const CurseProject &p1, const CurseProject &p2);
 
 private:
-    QList<CurseProject> projects;
-    QList<CurseFile> files;
+    QMap<int, CurseProject> projects;
+    QMap<int, CurseFile> files;
 };
