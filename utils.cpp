@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <QWidget>
+#include <QFileInfo>
 #include <time.h>
 
 QString Utils::loadStyleSheet(QString name) {
@@ -64,4 +65,9 @@ void Utils::clearLayout(QLayout *layout) {
         }
         delete item;
     }
+}
+
+bool Utils::fileExists(QString path) {
+    QFileInfo check_file(path);
+    return check_file.exists() && check_file.isFile();
 }

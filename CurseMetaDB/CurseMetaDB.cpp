@@ -70,6 +70,19 @@ CurseMetaDB::CurseProject CurseMetaDB::project_from_json(const QJsonObject &j) {
     project.popularity = j["popularity"].toDouble();
     project.downloads = j["downloads"].toInt();
 
+    if (project.attachments.size() > 0) {
+        for (int i = 0; i < project.attachments.size(); i++) {
+            if (project.attachments[i].toObject()["default"].toBool()) {
+                project.icon_url = project.attachments[i].toObject()["url"].toString();
+                QStringList url_parts = project.icon_url.split(".");
+                project.icon_name = QString::number(project.id) + "." + url_parts[url_parts.length() - 1];
+            }
+        }
+    } else {
+        project.icon_url = "";
+        project.icon_name = "";
+    }
+
     return project;
 }
 

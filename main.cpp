@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
         MainWindow::data_dir = targetDir + "/data";
         MainWindow::config_dir = targetDir + "/config";
         MainWindow::cache_dir = targetDir + "/cache";
-        qDebug() << MainWindow::config_dir;
     } else {
         QString port_dir = QApplication::applicationDirPath() + "/data";
         QDir port_qdir(port_dir);

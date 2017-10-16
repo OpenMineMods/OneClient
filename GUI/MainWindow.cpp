@@ -15,9 +15,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     QSettings settings(config_dir + "/oneclient.ini", QSettings::NativeFormat);
 
     if (!settings.value("setup_done", false).toBool()) {
-        qDebug() << "Showing Initial Setup";
         InitialSetupWindow w;
-        qDebug() << w.exec();
     }
 
     QFile metaFile(cache_dir + "/meta.json");

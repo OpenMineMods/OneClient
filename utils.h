@@ -13,6 +13,8 @@ public:
     static QString generateUUID();
 
     static void clearLayout(QLayout *layout);
+
+    static bool fileExists(QString path);
 };
 
 #endif // UTILS_H

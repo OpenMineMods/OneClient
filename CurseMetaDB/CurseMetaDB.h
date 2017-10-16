@@ -30,6 +30,8 @@ public:
         QJsonArray versions;
         QJsonArray files;
         QJsonArray attachments;
+        QString icon_url;
+        QString icon_name;
     };
 
     struct CurseFile {
