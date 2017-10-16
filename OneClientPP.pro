@@ -39,7 +39,10 @@ SOURCES += \
         Utils.cpp \
     Minecraft/MinecraftInstance.cpp \
     GUI/FlowLayout.cpp \
-    GUI/InstanceWidget.cpp
+    GUI/InstanceWidget.cpp \
+    Minecraft/Yggdrasil.cpp \
+    Minecraft/AuthSession.cpp \
+    GUI/LoginDialog.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -55,15 +58,19 @@ HEADERS += \
         Fuzz/string_matcher.hpp \
         Fuzz/wrapper.hpp \
         Utils.h \
-    Minecraft/MinecraftInstance.h \
-    GUI/FlowLayout.h \
-    GUI/InstanceWidget.h
+        Minecraft/MinecraftInstance.h \
+        GUI/FlowLayout.h \
+        GUI/InstanceWidget.h \
+        Minecraft/Yggdrasil.h \
+        Minecraft/AuthSession.h \
+        GUI/LoginDialog.h
 
 FORMS += \
         UI/MainWindow.ui \
         UI/SetupDialog.ui \
         UI/PackWidget.ui \
-        UI/InstanceWidget.ui
+        UI/InstanceWidget.ui \
+    UI/LoginDialog.ui
 
 RESOURCES += \
         Assets/icons.qrc

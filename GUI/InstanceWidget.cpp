@@ -9,7 +9,6 @@ InstanceWidget::InstanceWidget(const MinecraftInstance* instance, QWidget* paren
     _ui.instance_name->setText(instance->getName());
 
     icon_filename = MainWindow::cache_dir + "/icons/" + instance->getIcon();
-    qDebug() << icon_filename;
     if (!Utils::fileExists(icon_filename)) {
         icon_filename = ":/icons/OpenMineMods.svg";
     }
