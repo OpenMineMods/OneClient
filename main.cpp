@@ -34,6 +34,14 @@ int main(int argc, char *argv[])
         MainWindow::config_dir = targetDir + "/config";
         MainWindow::cache_dir = targetDir + "/cache";
         qDebug() << MainWindow::config_dir;
+    } else {
+        QString port_dir = QApplication::applicationDirPath() + "/data";
+        QDir port_qdir(port_dir);
+        if (port_qdir.exists()) {
+            MainWindow::data_dir = port_dir + "/data";
+            MainWindow::config_dir = port_dir + "/config";
+            MainWindow::cache_dir = port_dir + "/cache";
+        }
     }
 
     QDir().mkdir(MainWindow::data_dir);
