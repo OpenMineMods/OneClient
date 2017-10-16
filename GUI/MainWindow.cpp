@@ -2,6 +2,7 @@
 #include "InitialSetup.h"
 #include "PackWidget.h"
 #include "InstanceWidget.h"
+#include "LoginDialog.h"
 #include "Utils.h"
 #include <iostream>
 #include "FlowLayout.h"
@@ -12,9 +13,7 @@
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     _ui.setupUi(this);
 
-    QString style = Utils::loadStyleSheet("main");
-    this->setStyleSheet(style);
-
+    setStyleSheet(Utils::loadStyleSheet("main"));
     QSettings settings(config_dir + "/oneclient.ini", QSettings::NativeFormat);
 
     if (!settings.value("setup_done", false).toBool()) {
