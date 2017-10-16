@@ -1,6 +1,7 @@
 #include "PackWidget.h"
 #include "MainWindow.h"
 #include "utils.h"
+#include "BackgroundDownloader.h"
 
 PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent) : QWidget(parent) {
     _ui.setupUi(this);
@@ -17,10 +18,19 @@ PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent
     _ui.pack_authors->setText("By " + authors.join(", "));
     _ui.pack_mcver->setText("Minecraft " + project->versions[project->versions.size() - 1].toString());
 
-    QString icon_filename = MainWindow::cache_dir + "/icons/" + project->icon_name;
+    icon_filename = MainWindow::cache_dir + "/icons/" + project->icon_name;
     if (Utils::fileExists(icon_filename)) {
         _ui.pack_icon->setStyleSheet(".QWidget { border-image: url(" + icon_filename + "); }");
     } else {
         _ui.pack_icon->setStyleSheet(".QWidget { border-image: url(:/icons/OpenMineMods.svg); }");
+        if (project->icon_url != "") {
+            dl.setTarget(project->icon_url, icon_filename);
+            connect(&dl, &BackgroundDownloader::downloadDone, this, &PackWidget::iconDownloaded);
+            dl.start();
+        }
     }
+}
+
+void PackWidget::iconDownloaded() {
+    _ui.pack_icon->setStyleSheet(".QWidget { border-image: url(" + icon_filename + "); }");
 }

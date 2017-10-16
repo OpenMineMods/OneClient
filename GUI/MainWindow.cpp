@@ -22,13 +22,13 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     QFile metaFile(cache_dir + "/meta.json");
     metaFile.open(QIODevice::ReadOnly);
     MainWindow::db.load(metaFile.readAll());
-    populate_browse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
+    populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
 
-    connect(_ui.pack_search_button, SIGNAL(clicked()), this, SLOT(search_changed()));
-    connect(_ui.pack_search, SIGNAL(returnPressed()), this, SLOT(search_changed()));
+    connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
+    connect(_ui.pack_search, &QLineEdit::returnPressed, this, &MainWindow::searchChanged);
 }
 
-void MainWindow::populate_browse(QList<CurseMetaDB::CurseProject> projects) {
+void MainWindow::populateBrowse(QList<CurseMetaDB::CurseProject> projects) {
     Utils::clearLayout(_ui.pack_box);
     QListIterator<CurseMetaDB::CurseProject> iter(projects);
     while (iter.hasNext()) {
@@ -38,10 +38,10 @@ void MainWindow::populate_browse(QList<CurseMetaDB::CurseProject> projects) {
     _ui.pack_box->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
 
-void MainWindow::search_changed() {
+void MainWindow::searchChanged() {
     if (_ui.pack_search->text() == "") {
-        populate_browse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
+        populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     } else {
-        populate_browse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK));
+        populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK));
     }
 }

@@ -21,11 +21,11 @@ public:
     static CurseMetaDB db;
 
 public slots:
-    void search_changed();
+    void searchChanged();
 
 private:
 
-    void populate_browse(QList<CurseMetaDB::CurseProject> projects);
+    void populateBrowse(QList<CurseMetaDB::CurseProject> projects);
 
     QString conf_file;
     QList<QWidget*> browse_widgets;

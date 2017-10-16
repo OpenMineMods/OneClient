@@ -30,7 +30,8 @@ SOURCES += \
         GUI/InitialSetup.cpp \
         DownloadUtil.cpp \
         CurseMetaDB/CurseMetaDB.cpp \
-        GUI/PackWidget.cpp
+        GUI/PackWidget.cpp \
+    BackgroundDownloader.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -38,7 +39,8 @@ HEADERS += \
         GUI/InitialSetup.h \
         DownloadUtil.h \
         CurseMetaDB/CurseMetaDB.h \
-    GUI/PackWidget.h
+    GUI/PackWidget.h \
+    BackgroundDownloader.h
 
 FORMS += \
         UI/MainWindow.ui \
