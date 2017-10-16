@@ -83,15 +83,10 @@ static const char* scale[] = {
 
 QString Utils::formatNumber(double n, int decimals) {
     int digits = n==0? 0 : 1+floor(log10l(fabs(n)));
-    // determine base 10 exponential
     int exp = digits <= 4? 0 : 3*((digits-1)/3);
-    // normalized number
     double m = n / powl(10, exp);
-    // no decimals? then don't print any
     if ( m - static_cast<long>(n) == 0 )
         decimals = 0;
-    static const char* fmt[] = {"%1 %2 %3", "%1 %2 %3"};
     QString s = QString::number(m,'f',decimals).append(scale[exp/3]);
-//    QString s = QString(fmt[exp>0]).arg(decimals).arg(m).arg(QChar(*scale[exp/3]));
     return s;
 }
