@@ -28,16 +28,15 @@ SOURCES += \
         GUI/MainWindow.cpp \
         utils.cpp \
         GUI/InitialSetup.cpp \
-    DownloadUtil.cpp \
-    CurseMetaDB/CurseMetaDB.cpp
+        DownloadUtil.cpp \
+        CurseMetaDB/CurseMetaDB.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
         utils.h \
         GUI/InitialSetup.h \
         DownloadUtil.h \
-        CurseMetaDB/CurseMetaDB.h \
-        CurseMetaDB/json.hpp
+        CurseMetaDB/CurseMetaDB.h
 
 FORMS += \
         UI/MainWindow.ui \

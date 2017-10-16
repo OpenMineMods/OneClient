@@ -1,13 +1,12 @@
 #pragma once
 #include <QString>
-#include "json.hpp"
 #include <QList>
-
-using json = nlohmann::json;
+#include <QJsonObject>
 
 class CurseMetaDB {
 public:
-    CurseMetaDB(QString meta);
+    CurseMetaDB();
+    void load(QByteArray meta);
 
     enum ProjectType {
         MOD,
@@ -19,11 +18,11 @@ public:
     struct CurseProject {
         int id;
         ProjectType type;
-        std::string title;
-        std::string primaryAuthor;
+        QString title;
+        QString primaryAuthor;
         QList<QString> authors;
-        std::string desc;
-        std::string page;
+        QString desc;
+        QString page;
         QList<QString> versions;
         QList<int> files;
         QList<int> attachments;
@@ -34,14 +33,14 @@ public:
         int date;
         QList<QString> versions;
         QList<int> deps;
-        std::string dl;
-        std::string filename;
+        QString dl;
+        QString filename;
         int project;
     };
 
-    CurseProject project_from_json(const json& j);
-    CurseFile file_from_json(const json& j);
+    static CurseProject project_from_json(const QJsonObject& j);
+    static CurseFile file_from_json(const QJsonObject& j);
 
 private:
-    json raw_data;
+    QJsonObject raw_data;
 };

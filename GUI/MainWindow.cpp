@@ -21,6 +21,5 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
 
     QFile metaFile(cache_dir + "/meta.json");
     metaFile.open(QIODevice::ReadOnly);
-    QTextStream in(&metaFile);
-    MainWindow::db = CurseMetaDB(in.readAll());
+    MainWindow::db.load(metaFile.readAll());
 }
