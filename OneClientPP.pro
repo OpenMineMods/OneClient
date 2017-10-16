@@ -29,18 +29,21 @@ SOURCES += \
         utils.cpp \
         GUI/InitialSetup.cpp \
         DownloadUtil.cpp \
-        CurseMetaDB/CurseMetaDB.cpp
+        CurseMetaDB/CurseMetaDB.cpp \
+    GUI/PackWidget.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
         utils.h \
         GUI/InitialSetup.h \
         DownloadUtil.h \
-        CurseMetaDB/CurseMetaDB.h
+        CurseMetaDB/CurseMetaDB.h \
+    GUI/PackWidget.h
 
 FORMS += \
         UI/MainWindow.ui \
-        UI/SetupDialog.ui
+        UI/SetupDialog.ui \
+        UI/PackWidget.ui
 
 RESOURCES += \
         Assets/icons.qrc

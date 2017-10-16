@@ -21,8 +21,8 @@ public:
 
 private:
 
-    void loadSettings();
-    void saveSettings();
+    void populate_browse(QList<CurseMetaDB::CurseProject> projects);
 
     QString conf_file;
+    QList<QWidget*> browse_widgets;
 };

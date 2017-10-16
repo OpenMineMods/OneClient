@@ -2,6 +2,7 @@
 #include <regex>
 #include <iostream>
 #include <string>
+#include <QWidget>
 #include <time.h>
 
 QString Utils::loadStyleSheet(QString name) {
@@ -49,4 +50,18 @@ QString Utils::generateUUID() {
             rand(), rand(), rand(), rand(),
             rand(), rand(), rand(), rand());
     return QString(buffer);
+}
+
+void Utils::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
 }
