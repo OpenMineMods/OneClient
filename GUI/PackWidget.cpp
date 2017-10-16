@@ -4,6 +4,7 @@
 #include "BackgroundDownloader.h"
 
 PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent) : QWidget(parent) {
+    proj_url = QUrl(project->page);
     _ui.setupUi(this);
 
     _ui.pack_name->setText(project->title);
@@ -17,6 +18,8 @@ PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent
 
     _ui.pack_authors->setText("By " + authors.join(", "));
     _ui.pack_mcver->setText("Minecraft " + project->versions[project->versions.size() - 1].toString());
+
+    connect(_ui.pack_more, &QPushButton::clicked, this, &PackWidget::moreClicked);
 
     icon_filename = MainWindow::cache_dir + "/icons/" + project->icon_name;
     if (Utils::fileExists(icon_filename)) {
@@ -33,4 +36,8 @@ PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent
 
 void PackWidget::iconDownloaded() {
     _ui.pack_icon->setStyleSheet(".QWidget { border-image: url(" + icon_filename + "); }");
+}
+
+void PackWidget::moreClicked() {
+    QDesktopServices::openUrl(proj_url);
 }

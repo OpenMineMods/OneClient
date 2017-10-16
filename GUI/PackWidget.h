@@ -15,8 +15,10 @@ public:
 
 public slots:
     void iconDownloaded();
+    void moreClicked();
 
 private:
     QString icon_filename;
     BackgroundDownloader dl;
+    QUrl proj_url;
 };
