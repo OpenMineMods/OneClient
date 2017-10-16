@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
     if (parser.isSet(targetDirectoryOption)) {
         QString targetDir = parser.value(targetDirectoryOption);
+        QDir().mkpath(targetDir);
         MainWindow::data_dir = targetDir + "/data";
         MainWindow::config_dir = targetDir + "/config";
         MainWindow::cache_dir = targetDir + "/cache";
@@ -43,9 +44,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    QDir().mkdir(MainWindow::data_dir);
-    QDir().mkdir(MainWindow::config_dir);
-    QDir().mkdir(MainWindow::cache_dir);
+    QDir().mkpath(MainWindow::data_dir);
+    QDir().mkpath(MainWindow::config_dir);
+    QDir().mkpath(MainWindow::cache_dir);
 
     MainWindow w;
     w.show();

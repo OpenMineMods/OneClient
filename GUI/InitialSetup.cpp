@@ -34,11 +34,19 @@ void InitialSetupWindow::nextTab() {
         settings.setValue("setup_done", true);
         settings.setValue("analytics/enabled", _ui.analytics->isChecked());
         settings.setValue("autoupdate", _ui.autoupdate->isChecked());
-        DownloadUtil::downloadFile("https://openminemods.digitalfishfun.com/raw_cleaned.json.xz", MainWindow::cache_dir + "/meta.json.xz");
+        _ui.prog_label->setText("Downloading Latest CurseMeta");
+        DownloadUtil dlu;
+        connect(&dlu, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
+        dlu.downloadFile("https://openminemods.digitalfishfun.com/raw_cleaned.json.xz", MainWindow::cache_dir + "/meta.json.xz");
         system(("xz -d " + MainWindow::cache_dir + "/meta.json.xz").toStdString().c_str());
         done(1);
         return;
     }
     _ui.tabWidget->setTabEnabled(ind + 1, true);
     _ui.tabWidget->setCurrentIndex(ind + 1);
+}
+
+void InitialSetupWindow::downloadProgress(qint64 bytesRecived, qint64 totalBytes) {
+    _ui.prog_1->setMaximum(totalBytes);
+    _ui.prog_1->setValue(bytesRecived);
 }

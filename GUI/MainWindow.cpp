@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
 
     if (!settings.value("setup_done", false).toBool()) {
         InitialSetupWindow w;
+        w.exec();
     }
 
     QFile metaFile(cache_dir + "/meta.json");
