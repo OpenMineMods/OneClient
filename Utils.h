@@ -15,6 +15,8 @@ public:
     static void clearLayout(QLayout *layout);
 
     static bool fileExists(QString path);
+
+    static QString formatNumber(double number, int decimals=1);
 };
 
 #endif // UTILS_H
