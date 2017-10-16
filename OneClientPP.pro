@@ -36,7 +36,10 @@ SOURCES += \
         Fuzz/levenshtein.c \
         Fuzz/string_matcher.cpp \
         Fuzz/wrapper.cpp \
-    Utils.cpp
+        Utils.cpp \
+    Minecraft/MinecraftInstance.cpp \
+    GUI/FlowLayout.cpp \
+    GUI/InstanceWidget.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -51,12 +54,16 @@ HEADERS += \
         Fuzz/levenshtein.h \
         Fuzz/string_matcher.hpp \
         Fuzz/wrapper.hpp \
-    Utils.h
+        Utils.h \
+    Minecraft/MinecraftInstance.h \
+    GUI/FlowLayout.h \
+    GUI/InstanceWidget.h
 
 FORMS += \
         UI/MainWindow.ui \
         UI/SetupDialog.ui \
-        UI/PackWidget.ui
+        UI/PackWidget.ui \
+        UI/InstanceWidget.ui
 
 RESOURCES += \
         Assets/icons.qrc

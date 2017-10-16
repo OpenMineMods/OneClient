@@ -2,6 +2,8 @@
 
 #include <QtWidgets>
 #include "ui_MainWindow.h"
+#include "FlowLayout.h"
+#include "Minecraft/MinecraftInstance.h"
 #include "CurseMetaDB/CurseMetaDB.h"
 
 class MainWindow : public QMainWindow {
@@ -29,8 +31,10 @@ protected:
 private:
 
     void populateBrowse(QList<CurseMetaDB::CurseProject> projects);
+    void populateInstances(QList<MinecraftInstance> instances);
 
     QString conf_file;
     QList<QWidget*> browse_widgets;
     QWidget ad_img;
+    FlowLayout* fl;
 };
