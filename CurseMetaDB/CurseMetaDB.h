@@ -26,6 +26,7 @@ public:
         QString desc;
         QString page;
         double popularity;
+        int downloads;
         QJsonArray versions;
         QJsonArray files;
         QJsonArray attachments;

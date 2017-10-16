@@ -30,7 +30,7 @@ SOURCES += \
         GUI/InitialSetup.cpp \
         DownloadUtil.cpp \
         CurseMetaDB/CurseMetaDB.cpp \
-    GUI/PackWidget.cpp
+        GUI/PackWidget.cpp
 
 HEADERS += \
         GUI/MainWindow.h \

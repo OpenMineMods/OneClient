@@ -36,18 +36,18 @@ QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const 
         if (project.type != projectType) continue;
         if (query == "*") {
             results.append(project);
-            if (results.length() >= limit) break;
         }
         // TODO: Matching
     }
     if (query == "*") {
         std::sort(results.begin(), results.end(), CurseMetaDB::compare_projects);
+        results.erase(results.begin() + limit, results.end());
     }
     return results;
 }
 
 bool CurseMetaDB::compare_projects(const CurseProject &p1, const CurseProject &p2) {
-    return p1.popularity < p2.popularity;
+    return p1.popularity > p2.popularity;
 }
 
 CurseMetaDB::CurseProject CurseMetaDB::project_from_json(const QJsonObject &j) {
@@ -68,6 +68,7 @@ CurseMetaDB::CurseProject CurseMetaDB::project_from_json(const QJsonObject &j) {
     project.files = j["files"].toArray();
     project.attachments = j["attachments"].toArray();
     project.popularity = j["popularity"].toDouble();
+    project.downloads = j["downloads"].toInt();
 
     return project;
 }
