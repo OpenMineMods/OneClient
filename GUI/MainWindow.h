@@ -23,10 +23,14 @@ public:
 public slots:
     void searchChanged();
 
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 private:
 
     void populateBrowse(QList<CurseMetaDB::CurseProject> projects);
 
     QString conf_file;
     QList<QWidget*> browse_widgets;
+    QWidget ad_img;
 };

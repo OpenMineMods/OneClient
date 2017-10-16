@@ -26,6 +26,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
 
     connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
     connect(_ui.pack_search, &QLineEdit::returnPressed, this, &MainWindow::searchChanged);
+
+    ad_img.setStyleSheet(".QWidget { border-image: url(:/icons/ad.png) }");
+    ad_img.setFixedSize(60, 40);
+    ad_img.setParent(this);
 }
 
 void MainWindow::populateBrowse(QList<CurseMetaDB::CurseProject> projects) {
@@ -44,4 +48,8 @@ void MainWindow::searchChanged() {
     } else {
         populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK));
     }
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    ad_img.move(this->width() - ad_img.width() - 10, 10);
 }
