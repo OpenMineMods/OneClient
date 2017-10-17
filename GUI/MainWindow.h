@@ -26,6 +26,7 @@ public:
 public slots:
     void searchChanged();
     void logout();
+    void login();
     void valueChanged();
 
 protected:

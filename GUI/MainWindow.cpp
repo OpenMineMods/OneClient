@@ -2,6 +2,7 @@
 #include "InitialSetup.h"
 #include "PackWidget.h"
 #include "InstanceWidget.h"
+#include "Minecraft/Yggdrasil.h"
 #include "Utils.h"
 #include <iostream>
 #include "FlowLayout.h"
@@ -55,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     connect(_ui.max_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
 
     connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
+    connect(_ui.button_login, &QPushButton::clicked, this, &MainWindow::login);
 
     populateInstances(instances);
     Utils::clearLayout(_ui.pack_box);
@@ -124,6 +126,22 @@ void MainWindow::logout() {
     _ui.login_password->show();
     _ui.login_label->setText("Log in with your Minecraft account");
     _ui.button_logout->hide();
+}
+
+void MainWindow::login() {
+    ses = Yggdrasil::login(_ui.login_username->text(), _ui.login_password->text());
+    _ui.login_password->clear();
+    if (!ses.is_valid) {
+        _ui.login_label->setText("Invalid Username/Password!");
+        return;
+    }
+    ses.writeToFile(MainWindow::data_dir + "/auth.dat");
+    _ui.button_login->hide();
+    _ui.button_logout->show();
+    _ui.login_username->clear();
+    _ui.login_username->hide();
+    _ui.login_password->hide();
+    _ui.login_label->setText("Logged in as " + ses.profile.name);
 }
 
 void MainWindow::valueChanged() {

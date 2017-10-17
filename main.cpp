@@ -2,8 +2,8 @@
 #include <QApplication>
 #include <QDir>
 
-QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/oneclient";
+QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/oneclient";
 QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/oneclient";
 CurseMetaDB MainWindow::db = CurseMetaDB();
 
