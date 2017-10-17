@@ -35,6 +35,7 @@ void InitialSetupWindow::nextTab() {
             _ui.login_label->setText("Invalid Login!");
             return;
         }
+        ses.writeToFile(MainWindow::data_dir + "/auth.dat");
         _ui.login_label->setText("Logged in as " + ses.profile.name);
         _ui.tabWidget->setTabEnabled(0, false);
         _ui.tabWidget->setTabEnabled(1, false);

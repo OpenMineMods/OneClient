@@ -32,6 +32,17 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
         instances.append(MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
     }
+    ses.loadFromFile(MainWindow::data_dir + "/auth.dat");
+
+    if (!ses.is_valid) {
+        _ui.button_logout->hide();
+    } else {
+        _ui.button_login->hide();
+        _ui.login_username->hide();
+        _ui.login_password->hide();
+        _ui.login_label->setText("Logged in as " + ses.profile.name);
+    }
+
     populateInstances(instances);
     Utils::clearLayout(_ui.pack_box);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
