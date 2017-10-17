@@ -7,6 +7,7 @@
 #include "FlowLayout.h"
 #include <sys/stat.h>
 #include <QStandardPaths>
+#include "getMemorySize.h"
 
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
@@ -42,6 +43,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         _ui.login_password->hide();
         _ui.login_label->setText("Logged in as " + ses.profile.name);
     }
+
+    _ui.min_ram->setValue(settings.value("java/min_ram").toInt());
+    _ui.min_ram->setValue(settings.value("java/max_ram").toInt());
+    _ui.max_ram->setMaximum(getMemorySize() / MEGABYTE);
+    _ui.min_ram->setMaximum(getMemorySize() / MEGABYTE);
 
     connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
 

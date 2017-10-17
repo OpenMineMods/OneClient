@@ -44,6 +44,8 @@ void InitialSetupWindow::nextTab() {
         settings.setValue("setup_done", true);
         settings.setValue("analytics/enabled", _ui.analytics->isChecked());
         settings.setValue("autoupdate", _ui.autoupdate->isChecked());
+        settings.setValue("java/min_ram", 512);
+        settings.setValue("java/max_ram", 4096);
         _ui.prog_label->setText("Downloading Latest CurseMeta");
         DownloadUtil dlu;
         connect(&dlu, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));

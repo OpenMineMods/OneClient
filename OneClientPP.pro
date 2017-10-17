@@ -37,11 +37,12 @@ SOURCES += \
         Fuzz/string_matcher.cpp \
         Fuzz/wrapper.cpp \
         Utils.cpp \
-    Minecraft/MinecraftInstance.cpp \
-    GUI/FlowLayout.cpp \
-    GUI/InstanceWidget.cpp \
-    Minecraft/Yggdrasil.cpp \
-    Minecraft/AuthSession.cpp
+        Minecraft/MinecraftInstance.cpp \
+        GUI/FlowLayout.cpp \
+        GUI/InstanceWidget.cpp \
+        Minecraft/Yggdrasil.cpp \
+        Minecraft/AuthSession.cpp \
+        getMemorySize.c
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -61,7 +62,8 @@ HEADERS += \
         GUI/FlowLayout.h \
         GUI/InstanceWidget.h \
         Minecraft/Yggdrasil.h \
-        Minecraft/AuthSession.h
+        Minecraft/AuthSession.h \
+        getMemorySize.h
 
 FORMS += \
         UI/MainWindow.ui \
