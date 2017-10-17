@@ -44,9 +44,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         _ui.login_label->setText("Logged in as " + ses.profile.name);
     }
 
+    _ui.max_ram->setMaximum(getMemorySize() / MEGABYTE);
+    _ui.min_ram->setMaximum(getMemorySize() / MEGABYTE);
+
     _ui.min_ram->setValue(settings.value("java/min_ram", 512).toInt());
     _ui.max_ram->setValue(settings.value("java/max_ram", 4096).toInt());
-    _ui.max_ram->setMaximum(getMemorySize() / MEGABYTE);
     _ui.min_ram->setMaximum(_ui.max_ram->value());
 
     connect(_ui.min_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
