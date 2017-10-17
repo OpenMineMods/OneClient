@@ -36,9 +36,9 @@ void InitialSetupWindow::nextTab() {
             return;
         }
         _ui.login_label->setText("Logged in as " + ses.profile.name);
-        return;
         _ui.tabWidget->setTabEnabled(0, false);
         _ui.tabWidget->setTabEnabled(1, false);
+        _ui.tabWidget->setTabEnabled(2, false);
         QSettings settings(conf_file, QSettings::NativeFormat);
         settings.setValue("setup_done", true);
         settings.setValue("analytics/enabled", _ui.analytics->isChecked());

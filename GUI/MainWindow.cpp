@@ -37,8 +37,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
     connect(_ui.pack_search, &QLineEdit::returnPressed, this, &MainWindow::searchChanged);
-    connect(_ui.mainTabs,&QTabWidget::currentChanged,this,&MainWindow::changeTab);
-    connect(_ui.pack_scroll->verticalScrollBar(),&QScrollBar::valueChanged,this,&MainWindow::scrollBrowse);
+    connect(_ui.pack_scroll->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::scrollBrowse);
 
     _ui.scroll_box_w->setLayout(fl);
 
@@ -89,22 +88,14 @@ void MainWindow::resizeEvent(QResizeEvent*) {
     ad_img.move(this->width() - ad_img.width() - 10, 10);
 }
 
-void MainWindow::changeTab(int tab) {
-
-    switch(tab) {
-        case 1 :
-            Utils::clearLayout(_ui.pack_box);
-            populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
-            break;
-        case 2 :
-            break;
-    }
-}
 const int pageIncrement = 25;
 void MainWindow::scrollBrowse(int position) {
     if(!MainWindow::busy && position >= _ui.pack_scroll->verticalScrollBar()->maximum()) {
         int start = pageIncrement*MainWindow::page+1, end = start+pageIncrement-1;
-        qDebug() << "Loading page " << MainWindow::page << "," << start << "," << end;
-        populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK, start,end));
+        if (_ui.pack_search->text() == "") {
+            populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK, start,end));
+        } else {
+            populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK, start,end));
+        }
     }
 }
