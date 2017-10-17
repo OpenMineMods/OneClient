@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
     connect(_ui.pack_search, &QLineEdit::returnPressed, this, &MainWindow::searchChanged);
-    connect(_ui.pack_scroll->verticalScrollBar(), &QScrollBar::valueChanged, this, &MainWindow::scrollBrowse);
 
     _ui.scroll_box_w->setLayout(fl);
 
@@ -68,16 +67,15 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     ad_img.setParent(this);
 }
 
-void MainWindow::populateBrowse(QList<CurseMetaDB::CurseProject> projects) {
-    MainWindow::page++;
-    MainWindow::busy = true;
-    QListIterator<CurseMetaDB::CurseProject> iter(projects);
+void MainWindow::populateBrowse(QVector<CurseMetaDB::CurseProject> projects) {
+    browse_widgets.clear();
+    Utils::clearLayout(_ui.pack_box);
+    QVectorIterator<CurseMetaDB::CurseProject> iter(projects);
     while (iter.hasNext()) {
         browse_widgets.append(new PackWidget(&iter.next()));
         _ui.pack_box->addWidget(browse_widgets[browse_widgets.length()-1]);
     }
     _ui.pack_box->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    MainWindow::busy = false;
 }
 
 void MainWindow::populateInstances(QList<MinecraftInstance> instances) {
@@ -108,18 +106,6 @@ void MainWindow::searchChanged() {
 
 void MainWindow::resizeEvent(QResizeEvent*) {
     ad_img.move(this->width() - ad_img.width() - 10, 10);
-}
-
-const int pageIncrement = 25;
-void MainWindow::scrollBrowse(int position) {
-    if(!MainWindow::busy && position >= _ui.pack_scroll->verticalScrollBar()->maximum()) {
-        int start = pageIncrement*MainWindow::page+1, end = start+pageIncrement-1;
-        if (_ui.pack_search->text() == "") {
-            populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK, start,end));
-        } else {
-            populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK, start,end));
-        }
-    }
 }
 
 void MainWindow::logout() {

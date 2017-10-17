@@ -33,7 +33,7 @@ protected:
 
 private:
 
-    void populateBrowse(QList<CurseMetaDB::CurseProject> projects);
+    void populateBrowse(QVector<CurseMetaDB::CurseProject> projects);
     void populateInstances(QList<MinecraftInstance> instances);
     void scrollBrowse(int position);
 

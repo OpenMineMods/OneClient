@@ -35,6 +35,13 @@ PackWidget::PackWidget(const CurseMetaDB::CurseProject* project, QWidget* parent
 }
 
 void PackWidget::iconDownloaded() {
+    QImage img(icon_filename);
+    QPixmap p;
+    p = p.fromImage(img.scaled(128, 128, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    QFile f(icon_filename);
+    f.open(QIODevice::WriteOnly);
+    p.save(&f);
+    f.close();
     _ui.pack_icon->setStyleSheet(".QWidget { border-image: url(" + icon_filename + "); }");
 }
 

@@ -30,9 +30,9 @@ void CurseMetaDB::load(QByteArray meta) {
     qDebug() << "Loaded" << projects.size() << "projects and" << files.size() << "files.";
 }
 
-QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int start, const int end) {
-    QList<CurseProject> results;
-    QList<QPair<CurseProject, int>> candidates;
+QVector<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int limit) {
+    QVector<CurseProject> results;
+    QVector<QPair<CurseProject, int>> candidates;
     QListIterator<CurseProject> iter(projects.values());
     CurseProject project;
     int title_partial;
@@ -50,18 +50,10 @@ QList<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const 
     }
     if (query == "*") {
         std::sort(results.begin(), results.end(), CurseMetaDB::compare_projects);
-        QMutableListIterator<CurseProject> iter(results);
-        int i = 0;
-        while(iter.hasNext()) {
-            iter.next();
-            if ( i < start || i > end) {
-                iter.remove();
-            }
-            i++;
-        }
+        results.erase(results.begin() + limit, results.end());
     } else {
         std::sort(candidates.begin(), candidates.end(), CurseMetaDB::compareCloseness);
-        for(int i = start; i < std::min(candidates.size(),end);i++){
+        for(int i = 0; i < limit; i++){
             results.append(candidates[i].first);
         }
     }

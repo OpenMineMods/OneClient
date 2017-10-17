@@ -4,7 +4,7 @@
 
 QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
 QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/oneclient";
 CurseMetaDB MainWindow::db = CurseMetaDB();
 
 int main(int argc, char *argv[])
