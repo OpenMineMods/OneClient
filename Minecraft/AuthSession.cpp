@@ -5,7 +5,7 @@ AuthSession::AuthSession(QJsonObject resp) {
         is_valid = false;
         return;
     }
-
+    is_valid = true;
     access_token = resp["accessToken"].toString();
     client_token = resp["clientToken"].toString();
     QJsonObject sel_prof = resp["selectedProfile"].toObject();
