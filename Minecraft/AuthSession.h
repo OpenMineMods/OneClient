@@ -14,6 +14,10 @@ class AuthSession
 {
 public:
     AuthSession(QJsonObject resp);
+    AuthSession();
+
+    void writeToFile(QString file);
+    void loadFromFile(QString authFile);
 
     bool is_valid;
     QString access_token;

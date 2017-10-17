@@ -35,6 +35,7 @@ void InitialSetupWindow::nextTab() {
             _ui.login_label->setText("Invalid Login!");
             return;
         }
+        ses.writeToFile(MainWindow::data_dir + "/auth.dat");
         _ui.login_label->setText("Logged in as " + ses.profile.name);
         _ui.tabWidget->setTabEnabled(0, false);
         _ui.tabWidget->setTabEnabled(1, false);
@@ -43,6 +44,8 @@ void InitialSetupWindow::nextTab() {
         settings.setValue("setup_done", true);
         settings.setValue("analytics/enabled", _ui.analytics->isChecked());
         settings.setValue("autoupdate", _ui.autoupdate->isChecked());
+        settings.setValue("java/min_ram", 512);
+        settings.setValue("java/max_ram", 4096);
         _ui.prog_label->setText("Downloading Latest CurseMeta");
         DownloadUtil dlu;
         connect(&dlu, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));

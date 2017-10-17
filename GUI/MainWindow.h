@@ -3,6 +3,7 @@
 #include <QtWidgets>
 #include "ui_MainWindow.h"
 #include "FlowLayout.h"
+#include "Minecraft/AuthSession.h"
 #include "Minecraft/MinecraftInstance.h"
 #include "CurseMetaDB/CurseMetaDB.h"
 
@@ -24,6 +25,8 @@ public:
 
 public slots:
     void searchChanged();
+    void logout();
+    void valueChanged();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -39,6 +42,8 @@ private:
     QList<QWidget*> instance_widgets;
     QWidget ad_img;
     FlowLayout* fl;
+    AuthSession ses;
+
     int page;
     bool busy;
 };

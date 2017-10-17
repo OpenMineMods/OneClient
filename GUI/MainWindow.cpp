@@ -7,6 +7,7 @@
 #include "FlowLayout.h"
 #include <sys/stat.h>
 #include <QStandardPaths>
+#include "getMemorySize.h"
 
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
@@ -32,6 +33,27 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
         instances.append(MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
     }
+    ses.loadFromFile(MainWindow::data_dir + "/auth.dat");
+
+    if (!ses.is_valid) {
+        _ui.button_logout->hide();
+    } else {
+        _ui.button_login->hide();
+        _ui.login_username->hide();
+        _ui.login_password->hide();
+        _ui.login_label->setText("Logged in as " + ses.profile.name);
+    }
+
+    _ui.min_ram->setValue(settings.value("java/min_ram", 512).toInt());
+    _ui.max_ram->setValue(settings.value("java/max_ram", 4096).toInt());
+    _ui.max_ram->setMaximum(getMemorySize() / MEGABYTE);
+    _ui.min_ram->setMaximum(_ui.max_ram->value());
+
+    connect(_ui.min_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
+    connect(_ui.max_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
+
+    connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
+
     populateInstances(instances);
     Utils::clearLayout(_ui.pack_box);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
@@ -98,4 +120,28 @@ void MainWindow::scrollBrowse(int position) {
             populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK, start,end));
         }
     }
+}
+
+void MainWindow::logout() {
+    ses.is_valid = false;
+    ses.access_token = "";
+    ses.client_token = "";
+    ses.profile.id = "";
+    ses.profile.name = "";
+    ses.profile.legacy = false;
+    ses.writeToFile(MainWindow::data_dir + "/auth.dat");
+
+    _ui.button_login->show();
+    _ui.login_username->show();
+    _ui.login_password->show();
+    _ui.login_label->setText("Log in with your Minecraft account");
+    _ui.button_logout->hide();
+}
+
+void MainWindow::valueChanged() {
+    QSettings settings(config_dir + "/oneclient.ini", QSettings::NativeFormat);
+
+    _ui.min_ram->setMaximum(_ui.max_ram->value());
+    settings.setValue("java/min_ram", _ui.min_ram->value());
+    settings.setValue("java/max_ram", _ui.max_ram->value());
 }
