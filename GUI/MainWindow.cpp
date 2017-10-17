@@ -44,10 +44,13 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         _ui.login_label->setText("Logged in as " + ses.profile.name);
     }
 
-    _ui.min_ram->setValue(settings.value("java/min_ram").toInt());
-    _ui.min_ram->setValue(settings.value("java/max_ram").toInt());
+    _ui.min_ram->setValue(settings.value("java/min_ram", 512).toInt());
+    _ui.max_ram->setValue(settings.value("java/max_ram", 4096).toInt());
     _ui.max_ram->setMaximum(getMemorySize() / MEGABYTE);
-    _ui.min_ram->setMaximum(getMemorySize() / MEGABYTE);
+    _ui.min_ram->setMaximum(_ui.max_ram->value());
+
+    connect(_ui.min_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
+    connect(_ui.max_ram, &QSpinBox::editingFinished, this, &MainWindow::valueChanged);
 
     connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
 
@@ -133,4 +136,12 @@ void MainWindow::logout() {
     _ui.login_password->show();
     _ui.login_label->setText("Log in with your Minecraft account");
     _ui.button_logout->hide();
+}
+
+void MainWindow::valueChanged() {
+    QSettings settings(config_dir + "/oneclient.ini", QSettings::NativeFormat);
+
+    _ui.min_ram->setMaximum(_ui.max_ram->value());
+    settings.setValue("java/min_ram", _ui.min_ram->value());
+    settings.setValue("java/max_ram", _ui.max_ram->value());
 }
