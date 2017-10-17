@@ -32,7 +32,6 @@ private:
 
     void populateBrowse(QList<CurseMetaDB::CurseProject> projects);
     void populateInstances(QList<MinecraftInstance> instances);
-    void changeTab(int tab);
     void scrollBrowse(int position);
 
     QString conf_file;
