@@ -12,6 +12,8 @@ DownloadUtil::DownloadUtil() {
 
 void DownloadUtil::downloadFile(const QString &url, const QString &dest) {
     QNetworkAccessManager m_netMan;
+    QNetworkRequest req(url);
+    req.setRawHeader("User-Agent", "OneClient++/0.1");
     QNetworkReply *reply = m_netMan.get(QNetworkRequest(url));
     QEventLoop loop;
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));

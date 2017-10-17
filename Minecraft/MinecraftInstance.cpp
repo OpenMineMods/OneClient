@@ -1,7 +1,11 @@
 #include "MinecraftInstance.h"
+#include "Utils.h"
+#include "GUI/MainWindow.h"
+#include "DownloadUtil.h"
+#include "MinecraftVersions.h"
 #include <QSettings>
 
-MinecraftInstance::MinecraftInstance(QString baseDir) {
+MinecraftInstance::MinecraftInstance(QString baseDir, QObject* parent) : QObject(parent) {
     m_baseDir = baseDir;
     m_mcDir = baseDir + "/minecraft";
 
@@ -35,6 +39,12 @@ void MinecraftInstance::setVersion(QString minecraft, QString forge) {
     settings.setValue("minecraft/forge", forge);
 }
 
+QPair<QString, QString> MinecraftInstance::getVersion() {
+    QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
+
+    return QPair<QString, QString>(settings.value("minecraft/version").toString(), settings.value("forge/version").toString());
+}
+
 QString MinecraftInstance::getIcon() const {
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
     return settings.value("instance/icon", "default.svg").toString();
@@ -43,4 +53,27 @@ QString MinecraftInstance::getIcon() const {
 QString MinecraftInstance::getName() const {
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
     return settings.value("instance/name", "Unnamed Instance").toString();
+}
+
+void MinecraftInstance::launch() {
+    QString mcver = MainWindow::cache_dir + "/manifests/" + getVersion().first + ".json";
+    DownloadUtil dl;
+    if (!Utils::fileExists(mcver)) {
+        BasicMinecraftVersion ver = MainWindow::vers.versions[mcver];
+        dl.downloadFile(ver.url, mcver);
+    }
+    MinecraftVersion m_ver;
+    m_ver.loadFromFile(mcver);
+
+    QVectorIterator<MinecraftFile> iter(m_ver.libraries);
+    MinecraftFile f;
+    while (iter.hasNext()) {
+        f = iter.next();
+        if (!Utils::fileExists(MainWindow::data_dir + "/libraries/" + f.download.path)) {
+            QDir().mkpath(MainWindow::data_dir + "/libraries/" + f.download.path.section("/", 0, -2));
+            dl.downloadFile(f.download.url, MainWindow::data_dir + "/libraries/" + f.download.path);
+        }
+    }
+
+    qDebug() << "Launching Instance " << getName();
 }

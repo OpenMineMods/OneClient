@@ -3,7 +3,7 @@
 #include "Utils.h"
 #include "BackgroundDownloader.h"
 
-InstanceWidget::InstanceWidget(const MinecraftInstance* instance, QWidget* parent) : QWidget(parent) {
+InstanceWidget::InstanceWidget(MinecraftInstance* instance, QWidget* parent) : QWidget(parent) {
     _ui.setupUi(this);
 
     _ui.instance_name->setText(instance->getName());
@@ -12,6 +12,8 @@ InstanceWidget::InstanceWidget(const MinecraftInstance* instance, QWidget* paren
     if (!Utils::fileExists(icon_filename)) {
         icon_filename = ":/icons/OpenMineMods.svg";
     }
+
+    connect(_ui.play_button, &QToolButton::clicked, instance, &MinecraftInstance::launch);
 }
 
 void InstanceWidget::paintEvent(QPaintEvent *e) {

@@ -5,6 +5,7 @@
 #include "FlowLayout.h"
 #include "Minecraft/AuthSession.h"
 #include "Minecraft/MinecraftInstance.h"
+#include "Minecraft/MinecraftVersions.h"
 #include "CurseMetaDB/CurseMetaDB.h"
 
 class MainWindow : public QMainWindow {
@@ -23,6 +24,8 @@ public:
 
     static CurseMetaDB db;
 
+    static MinecraftVersions vers;
+
 public slots:
     void searchChanged();
     void logout();
@@ -35,7 +38,7 @@ protected:
 private:
 
     void populateBrowse(QVector<CurseMetaDB::CurseProject> projects);
-    void populateInstances(QList<MinecraftInstance> instances);
+    void populateInstances(QList<MinecraftInstance*> instances);
     void scrollBrowse(int position);
 
     QString conf_file;

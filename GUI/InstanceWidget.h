@@ -9,7 +9,7 @@
 class InstanceWidget : public QWidget {
     Q_OBJECT
 public:
-    InstanceWidget(const MinecraftInstance* instance, QWidget* parent = 0);
+    InstanceWidget(MinecraftInstance* instance, QWidget* parent = 0);
 
     void paintEvent(QPaintEvent *e);
 

@@ -51,6 +51,8 @@ void InitialSetupWindow::nextTab() {
         connect(&dlu, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
         dlu.downloadFile("https://openminemods.digitalfishfun.com/raw_cleaned.json.xz", MainWindow::cache_dir + "/meta.json.xz");
         system(("xz -d " + MainWindow::cache_dir + "/meta.json.xz").toStdString().c_str());
+        _ui.prog_label->setText("Downloading Minecraft version manifest");
+        dlu.downloadFile("https://launchermeta.mojang.com/mc/game/version_manifest.json", MainWindow::cache_dir + "/minecraft.json");
         done(1);
         return;
     }

@@ -28,11 +28,13 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     metaFile.open(QIODevice::ReadOnly);
     MainWindow::db.load(metaFile.readAll());
 
+    MainWindow::vers.loadFromFile(cache_dir + "/minecraft.json");
+
     QStringList instanceFolders = QDir(MainWindow::data_dir + "/instances").entryList();
-    QList<MinecraftInstance> instances;
+    QList<MinecraftInstance*> instances;
     for (int i = 0; i < instanceFolders.length(); ++i) {
         if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
-        instances.append(MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
+        instances.append(new MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
     }
     ses.loadFromFile(MainWindow::data_dir + "/auth.dat");
 
@@ -82,12 +84,12 @@ void MainWindow::populateBrowse(QVector<CurseMetaDB::CurseProject> projects) {
     _ui.pack_box->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
 
-void MainWindow::populateInstances(QList<MinecraftInstance> instances) {
+void MainWindow::populateInstances(QList<MinecraftInstance*> instances) {
     Utils::clearLayout(fl);
 
-    QListIterator<MinecraftInstance> iter(instances);
+    QMutableListIterator<MinecraftInstance*> iter(instances);
     while (iter.hasNext()) {
-        instance_widgets.append(new InstanceWidget(&iter.next()));
+        instance_widgets.append(new InstanceWidget(iter.next()));
         fl->addWidget(instance_widgets[instance_widgets.length()-1]);
     }
 

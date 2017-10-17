@@ -1,10 +1,12 @@
 #include "GUI/MainWindow.h"
+#include "Minecraft/MinecraftVersions.h"
 #include <QApplication>
 #include <QDir>
 
 QString MainWindow::data_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/oneclient";
 QString MainWindow::config_dir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/oneclient";
 QString MainWindow::cache_dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/oneclient";
+MinecraftVersions MainWindow::vers = MinecraftVersions();
 CurseMetaDB MainWindow::db = CurseMetaDB();
 
 int main(int argc, char *argv[])
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
     QDir().mkpath(MainWindow::config_dir);
     QDir().mkpath(MainWindow::cache_dir);
     QDir().mkpath(MainWindow::cache_dir + "/icons");
+    QDir().mkpath(MainWindow::cache_dir + "/manifests");
 
     MainWindow w;
     w.show();
