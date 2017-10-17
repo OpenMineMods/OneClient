@@ -25,6 +25,7 @@ public:
 
 public slots:
     void searchChanged();
+    void logout();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);

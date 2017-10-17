@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
         _ui.login_label->setText("Logged in as " + ses.profile.name);
     }
 
+    connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
+
     populateInstances(instances);
     Utils::clearLayout(_ui.pack_box);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
@@ -109,4 +111,20 @@ void MainWindow::scrollBrowse(int position) {
             populateBrowse(MainWindow::db.search(_ui.pack_search->text(), CurseMetaDB::MODPACK, start,end));
         }
     }
+}
+
+void MainWindow::logout() {
+    ses.is_valid = false;
+    ses.access_token = "";
+    ses.client_token = "";
+    ses.profile.id = "";
+    ses.profile.name = "";
+    ses.profile.legacy = false;
+    ses.writeToFile(MainWindow::data_dir + "/auth.dat");
+
+    _ui.button_login->show();
+    _ui.login_username->show();
+    _ui.login_password->show();
+    _ui.login_label->setText("Log in with your Minecraft account");
+    _ui.button_logout->hide();
 }
