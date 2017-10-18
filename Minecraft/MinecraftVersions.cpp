@@ -4,11 +4,10 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "Utils.h"
-#include <QVariantMap>
 #include <QJsonArray>
 #include <QMap>
 #include <QDebug>
-#include <QVariantMap>
+#include <QStringListIterator>
 
 MinecraftVersions::MinecraftVersions() {
 
@@ -90,6 +89,17 @@ void MinecraftVersion::loadFromFile(QString file) {
             if (!clib["natives"].toObject().contains(OS_NAME)) continue;
             QString key = clib["natives"].toObject()[OS_NAME].toString();
             downloads = clib["downloads"].toObject()["classifiers"].toObject()[key].toObject();
+            QJsonArray rulesObject(clib["rules"].toArray());
+            for(int i =0;i < rulesObject.size();i++) {
+                Rule rule;
+                rule.allow = rulesObject[i].toObject()["action"] == "allow" ? true : false;
+
+                QJsonArray array(rulesObject[i].toObject()["os"].toArray());
+                for(int j = 0; j < array.size();j++) {
+                    rule.allowed.append(array[i].toString());
+                }
+                file.rules.append(rule);
+            }
         } else {
             downloads = clib["downloads"].toObject()["artifact"].toObject();
         }
@@ -109,9 +119,17 @@ void MinecraftVersion::loadFromFile(QString file) {
 void MinecraftAssets::loadFromFile(QString file) {
     QFile assetsFile(file);
     assetsFile.open(QIODevice::ReadOnly);
-    QJsonObject assetsObjects = QJsonDocument::fromJson(assetsFile.readAll()).object();
+    QJsonObject assetsManifest = QJsonDocument::fromJson(assetsFile.readAll()).object();
     assetsFile.close();
-
-    QVariantMap assets = assetsObjects.toVariantMap();
-
+    QJsonObject assetsObjects(assetsManifest["objects"].toObject());
+    QStringListIterator iter(assetsObjects.keys());
+    QJsonObject current;
+    while(iter.hasNext()) {
+        QString key( iter.next());
+        current = assetsObjects[key].toObject();
+        MinecraftAsset asset;
+        asset.hash = current["hash"].toString();
+        asset.size = current["size"].toInt();
+        objects.insert(key,asset);
+    }
 }

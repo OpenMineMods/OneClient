@@ -36,7 +36,6 @@ void InitialSetupWindow::nextTab() {
         AuthSession ses = Yggdrasil::login(_ui.login_username->text(), _ui.login_password->text());
         if (!ses.is_valid) {
             _ui.login_label->setText("Invalid Login!");
-            return;
         }
         ses.writeToFile(MainWindow::data_dir + "/auth.dat");
         _ui.login_label->setText("Logged in as " + ses.profile.name);

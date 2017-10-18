@@ -5,6 +5,10 @@
 #include "BackgroundDownloader.h"
 #include "MinecraftVersions.h"
 #include <QSettings>
+#include <QStringListIterator>
+#include <QStringList>
+
+using namespace std;
 
 MinecraftInstance::MinecraftInstance(QString baseDir, QObject* parent) : QObject(parent) {
     m_baseDir = baseDir;
@@ -69,12 +73,19 @@ void MinecraftInstance::launch() {
 
     QVectorIterator<MinecraftFile> iter(m_ver.libraries);
     MinecraftFile f;
+    QString libraries;
     while (iter.hasNext()) {
         f = iter.next();
-        if (!Utils::fileExists(MainWindow::data_dir + "/libraries/" + f.download.path)) {
+        QString path(MainWindow::data_dir + "/libraries/" + f.download.path);
+        if (!Utils::fileExists(path)) {
             QDir().mkpath(MainWindow::data_dir + "/libraries/" + f.download.path.section("/", 0, -2));
-            dl.downloadFile(f.download.url, MainWindow::data_dir + "/libraries/" + f.download.path);
+            dl.downloadFile(f.download.url,path);
         }
+        //Apparently the : needs to be ; on windows or something
+        if(!libraries.isEmpty())
+            libraries = libraries % ":" % path;
+        else
+            libraries = path;
     }
 
     QString mcassets = MainWindow::cache_dir + "/assets/indexes/" + getVersion().first + ".json";
@@ -82,29 +93,55 @@ void MinecraftInstance::launch() {
         dl.downloadFile(m_ver.asset_index.url, mcassets);
     }
 
-
     MinecraftAssets m_assets;
+    m_assets.loadFromFile(mcassets);
+
     BackgroundDownloader bgdl;
+    QStringListIterator mapIter(m_assets.objects.keys());
+    while(mapIter.hasNext()) {
+        QString key(mapIter.next());
+        QString file = MainWindow::cache_dir + "/assets/objects/" + key;
+        if(!Utils::fileExists(file)) {
+            QDir dir = QFileInfo(file).absoluteDir();
+            if(!dir.exists())
+                dir.mkpath(dir.absolutePath());
+            bgdl.setTarget("http://resources.download.minecraft.net/"+ file, file);
+            bgdl.run();
+            qDebug() << "Getting Asset: " << file;
+        } else {
+            //TODO hash check the file
+        }
+    }
+
+    QString path(MainWindow::data_dir + "/libraries/" + f.download.path);
 
     QString jar_loc = MainWindow::data_dir + "/versions/" + m_ver.id + "/" + m_ver.id + ".jar";
     if (!Utils::fileExists(jar_loc)) {
         QDir().mkpath(jar_loc.section("/", 0, -2));
         dl.downloadFile(m_ver.client.url, jar_loc);
     }
+    QStringList arguments;
 
-    QString args(m_ver.args);
+//    arguments.append("");
+    arguments.append("-Djava.library.path="%libraries);
+    arguments.append(m_ver.main_class);
+    arguments.append("--username " % MainWindow::ses.profile.name);
+    arguments.append("--version " % m_ver.id);
+    arguments.append("--gameDir " % m_mcDir);
+    arguments.append("--assetsDir " % MainWindow::cache_dir + "/assets/");
+    arguments.append("--assetIndex" %  m_ver.asset_index.id);
+    arguments.append("--uuid " %  MainWindow::ses.profile.id);
+    arguments.append("--accessToken " % MainWindow::ses.access_token);
 
-    args = args.replace("${auth_player_name}", MainWindow::ses.profile.name);
-    args = args.replace("${version_name}", m_ver.id);
-    args = args.replace("${game_directory}", m_mcDir);
-    args = args.replace("${assets_root}", MainWindow::cache_dir + "/assets/");
-    args = args.replace("${assets_index_name}", m_ver.asset_index.id);
-    args = args.replace("${auth_uuid}", MainWindow::ses.profile.id);
-    args = args.replace("${auth_access_token}", MainWindow::ses.access_token);
-    if (MainWindow::ses.profile.legacy) args = args.replace("${user_type}", "legacy");
-    else args = args.replace("${user_type}", "mojang");
-    args = args.replace("${version_type}", "OneClient++");
+    if (MainWindow::ses.profile.legacy)
+        arguments.append("--userType legacy");
+    else
+        arguments.append("--userType mojang");
+    arguments.append("--versionType OneClient++");
 
-    qDebug() << args;
     qDebug() << "Launching Instance " << getName();
+    QProcess *process = new QProcess(this);
+    QString run = "/usr/lib/jvm/java-8-oracle/bin/java";
+    qDebug() << arguments;
+    process->startDetached(run,arguments);
 }

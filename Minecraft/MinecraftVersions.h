@@ -2,7 +2,7 @@
 
 #include <QString>
 #include <QMap>
-
+#include <QStringList>
 #include <QVector>
 
 enum ReleaseType {
@@ -28,6 +28,17 @@ public:
     QString latest_snapshot;
 };
 
+struct Rule {
+    bool allow;
+    QStringList allowed;
+};
+
+struct Natives {
+    //extract excludes
+    QVector<Rule> rules;
+};
+
+
 struct MinecraftDownload {
     int size;
     QString sha1;
@@ -38,7 +49,10 @@ struct MinecraftDownload {
 struct MinecraftFile {
     QString name;
     MinecraftDownload download;
+    Natives natives;
+    QVector<Rule> rules;
 };
+
 
 struct AssetIndex {
     QString id;
