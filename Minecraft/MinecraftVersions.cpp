@@ -7,6 +7,7 @@
 #include <QVariantMap>
 #include <QJsonArray>
 #include <QMap>
+#include <QDebug>
 #include <QVariantMap>
 
 MinecraftVersions::MinecraftVersions() {
@@ -23,7 +24,7 @@ void MinecraftVersions::loadFromFile(QString file) {
     latest_release = latest["release"].toString();
     latest_snapshot = latest["snapshot"].toString();
 
-    QJsonArray c_versions = latest.value("versions").toArray();
+    QJsonArray c_versions = versionsObject["versions"].toArray();
     QJsonObject current;
     for (int i = 0; i < c_versions.size(); ++i) {
         BasicMinecraftVersion ver;

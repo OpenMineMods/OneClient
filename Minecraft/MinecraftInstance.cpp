@@ -60,7 +60,7 @@ void MinecraftInstance::launch() {
     QString mcver = MainWindow::cache_dir + "/manifests/" + getVersion().first + ".json";
     DownloadUtil dl;
     if (!Utils::fileExists(mcver)) {
-        BasicMinecraftVersion ver = MainWindow::vers.versions[mcver];
+        BasicMinecraftVersion ver = MainWindow::vers.versions[getVersion().first];
         dl.downloadFile(ver.url, mcver);
     }
 

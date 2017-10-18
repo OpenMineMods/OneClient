@@ -93,11 +93,13 @@ void MainWindow::rescanInstances() {
         fl->addWidget(instance_widgets[instance_widgets.length()-1]);
     }
 
-    makeInstance.setStyleSheet(".QPushButton { border-image: url(:/icons/new_instance.svg) }");
-    makeInstance.setFixedSize(200, 200);
-    makeInstance.setToolTip("Create New Instance");
-    connect(&makeInstance, &QPushButton::clicked, this, &MainWindow::addInstance);
-    fl->addWidget(&makeInstance);
+    QPushButton* makeInstance = new QPushButton();
+    // Apparently 192 is 200. ¯\_(ツ)_/¯
+    makeInstance->setStyleSheet(".QPushButton { border-image: url(:/icons/new_instance.svg); width: 192px; height: 192px; }");
+    makeInstance->setToolTip("Create New Instance");
+    connect(makeInstance, &QPushButton::clicked, this, &MainWindow::addInstance);
+    instance_widgets.append(makeInstance);
+    fl->addWidget(instance_widgets[instance_widgets.length()-1]);
 
 }
 
