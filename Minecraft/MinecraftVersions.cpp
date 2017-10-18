@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "Utils.h"
+#include <QStringList>
 #include <QJsonArray>
 #include <QMap>
 #include <QDebug>
@@ -29,6 +30,7 @@ void MinecraftVersions::loadFromFile(QString file) {
         BasicMinecraftVersion ver;
         current = c_versions[i].toObject();
         ver.id = current["id"].toString();
+        orderedVersions.append(ver.id);
         if (current["type"].toString() == "release") ver.type = ReleaseType::RELEASE;
         else ver.type = ReleaseType::SNAPSHOT;
         ver.release_time = current["releaseTime"].toString();

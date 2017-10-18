@@ -58,7 +58,8 @@ SOURCES += \
     libraries/quazip/quazip/quazipnewinfo.cpp \
     libraries/quazip/quazip/unzip.c \
     libraries/quazip/quazip/zip.c \
-    GUI/InstanceWindow.cpp
+    GUI/InstanceWindow.cpp \
+    GUI/NewInstance.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -98,14 +99,16 @@ HEADERS += \
     libraries/quazip/quazip/quazipnewinfo.h \
     libraries/quazip/quazip/unzip.h \
     libraries/quazip/quazip/zip.h \
-    GUI/InstanceWindow.h
+    GUI/InstanceWindow.h \
+    GUI/NewInstance.h
 
 FORMS += \
         UI/MainWindow.ui \
         UI/SetupDialog.ui \
         UI/PackWidget.ui \
         UI/InstanceWidget.ui \
-        UI/InstanceWindow.ui
+        UI/InstanceWindow.ui \
+    UI/NewInstanceDialog.ui
 
 RESOURCES += \
         Assets/icons.qrc

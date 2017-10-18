@@ -24,6 +24,7 @@ public:
     void loadFromFile(QString file);
 
     QMap<QString, BasicMinecraftVersion> versions;
+    QVector<QString> orderedVersions;
     QString latest_release;
     QString latest_snapshot;
 };

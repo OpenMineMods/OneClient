@@ -2,6 +2,7 @@
 #include "InitialSetup.h"
 #include "PackWidget.h"
 #include "InstanceWidget.h"
+#include "NewInstance.h"
 #include "Minecraft/Yggdrasil.h"
 #include "Utils.h"
 #include <iostream>
@@ -101,10 +102,8 @@ void MainWindow::rescanInstances() {
 }
 
 void MainWindow::addInstance() {
-    InstanceWindow w;
-    w.show();
-//    QDir().mkpath(MainWindow::data_dir + "/instances/blah");
-//    rescanInstances();
+    NewInstance dia;
+    dia.exec();
 }
 
 void MainWindow::searchChanged() {
