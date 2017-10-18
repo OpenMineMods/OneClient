@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include "Utils.h"
+#include <QVariantMap>
 #include <QJsonArray>
 #include <QMap>
 #include <QVariantMap>
