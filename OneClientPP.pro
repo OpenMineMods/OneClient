@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
+
 SOURCES += \
         main.cpp \
         GUI/MainWindow.cpp \
@@ -56,8 +57,7 @@ SOURCES += \
     libraries/quazip/quazip/quazipfileinfo.cpp \
     libraries/quazip/quazip/quazipnewinfo.cpp \
     libraries/quazip/quazip/unzip.c \
-    libraries/quazip/quazip/zip.c \
-    GUI/InstanceWindow.cpp
+    libraries/quazip/quazip/zip.c
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -96,8 +96,7 @@ HEADERS += \
     libraries/quazip/quazip/quazipfileinfo.h \
     libraries/quazip/quazip/quazipnewinfo.h \
     libraries/quazip/quazip/unzip.h \
-    libraries/quazip/quazip/zip.h \
-    GUI/InstanceWindow.h
+    libraries/quazip/quazip/zip.h
 
 FORMS += \
         UI/MainWindow.ui \
@@ -113,3 +112,5 @@ DISTFILES += \
     libraries/quazip/NEWS.txt \
     libraries/quazip/CMakeLists.txt \
     libraries/quazip/COPYING
+
+LIBS+=-lz
