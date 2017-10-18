@@ -55,18 +55,9 @@ SOURCES += \
     libraries/quazip/quazip/quazipfile.cpp \
     libraries/quazip/quazip/quazipfileinfo.cpp \
     libraries/quazip/quazip/quazipnewinfo.cpp \
-    libraries/quazip/qztest/qztest.cpp \
-    libraries/quazip/qztest/testjlcompress.cpp \
-    libraries/quazip/qztest/testquachecksum32.cpp \
-    libraries/quazip/qztest/testquagzipfile.cpp \
-    libraries/quazip/qztest/testquaziodevice.cpp \
-    libraries/quazip/qztest/testquazip.cpp \
-    libraries/quazip/qztest/testquazipdir.cpp \
-    libraries/quazip/qztest/testquazipfile.cpp \
-    libraries/quazip/qztest/testquazipfileinfo.cpp \
-    libraries/quazip/qztest/testquazipnewinfo.cpp \
     libraries/quazip/quazip/unzip.c \
-    libraries/quazip/quazip/zip.c
+    libraries/quazip/quazip/zip.c \
+    GUI/InstanceWindow.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -106,22 +97,14 @@ HEADERS += \
     libraries/quazip/quazip/quazipnewinfo.h \
     libraries/quazip/quazip/unzip.h \
     libraries/quazip/quazip/zip.h \
-    libraries/quazip/qztest/qztest.h \
-    libraries/quazip/qztest/testjlcompress.h \
-    libraries/quazip/qztest/testquachecksum32.h \
-    libraries/quazip/qztest/testquagzipfile.h \
-    libraries/quazip/qztest/testquaziodevice.h \
-    libraries/quazip/qztest/testquazip.h \
-    libraries/quazip/qztest/testquazipdir.h \
-    libraries/quazip/qztest/testquazipfile.h \
-    libraries/quazip/qztest/testquazipfileinfo.h \
-    libraries/quazip/qztest/testquazipnewinfo.h
+    GUI/InstanceWindow.h
 
 FORMS += \
         UI/MainWindow.ui \
         UI/SetupDialog.ui \
         UI/PackWidget.ui \
-        UI/InstanceWidget.ui
+        UI/InstanceWidget.ui \
+    UI/InstanceWindow.ui
 
 RESOURCES += \
         Assets/icons.qrc
