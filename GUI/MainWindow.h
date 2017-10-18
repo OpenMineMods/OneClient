@@ -49,7 +49,6 @@ private:
     QList<QWidget*> instance_widgets;
     QWidget ad_img;
     FlowLayout* fl;
-    QPushButton makeInstance;
 
     int page;
     bool busy;
