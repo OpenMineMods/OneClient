@@ -58,7 +58,8 @@ void MinecraftVersion::loadFromFile(QString file) {
     server.url = j_server["url"].toString();
 
     id = versionObject["id"].toString();
-    asset_index = versionObject["assetIndex"].toObject()["id"].toString();
+    QJsonObject indexObject = versionObject["assetIndex"].toObject();
+    asset_index = AssetIndex(indexObject["id"].toString(),indexObject["sha1"].toString(),indexObject["url"].toString(),indexObject["totalsize"].toInt(),indexObject["size"].toInt());
     main_class = versionObject["mainClass"].toString();
     args = versionObject["minecraftArguments"].toString();
     release_time = versionObject["releaseTime"].toString();
@@ -94,4 +95,14 @@ void MinecraftVersion::loadFromFile(QString file) {
 
         libraries.append(file);
     }
+}
+
+void MinecraftAssets::loadFromFile(QString file) {
+    QFile assetsFile(file);
+    assetsFile.open(QIODevice::ReadOnly);
+    QJsonObject assetsObjects = QJsonDocument::fromJson(assetsFile.readAll()).object();
+    assetsFile.close();
+
+    QVariantMap assets = assetsObjects.toVariantMap();
+
 }

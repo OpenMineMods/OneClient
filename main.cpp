@@ -55,6 +55,8 @@ int main(int argc, char *argv[])
     QDir().mkpath(MainWindow::cache_dir);
     QDir().mkpath(MainWindow::cache_dir + "/icons");
     QDir().mkpath(MainWindow::cache_dir + "/manifests");
+    QDir().mkpath(MainWindow::cache_dir + "/assets/indexes");
+    QDir().mkpath(MainWindow::cache_dir + "/assets/objects");
 
     qDebug() << "Running on" << OS_NAME;
 

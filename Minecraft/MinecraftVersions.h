@@ -39,6 +39,18 @@ struct MinecraftFile {
     MinecraftDownload download;
 };
 
+struct AssetIndex {
+    AssetIndex();
+    AssetIndex(QString id, QString sha1, QString url, int totalsize, int size):
+        id(id), sha1(sha1), url(url), totalsize(totalsize), size(size) {}
+    ~AssetIndex();
+    QString id;
+    QString sha1;
+    QString url;
+    int totalsize;
+    int size;
+};
+
 class MinecraftVersion {
 public:
     MinecraftVersion();
@@ -48,7 +60,7 @@ public:
     QVector<MinecraftFile> libraries;
 
     int total_size;
-    QString asset_index;
+    AssetIndex asset_index;
     MinecraftDownload client;
     MinecraftDownload server;
     QString id;
@@ -57,3 +69,16 @@ public:
     QString release_time;
     ReleaseType type;
 };
+
+struct MinecraftAsset {
+    QString hash;
+    int size;
+};
+
+
+class MinecraftAssets {
+public:
+    void loadFromFile(QString file);
+//    QMap<QString,MinecraftAsset> objects;
+};
+

@@ -2,6 +2,7 @@
 #include "Utils.h"
 #include "GUI/MainWindow.h"
 #include "DownloadUtil.h"
+#include "BackgroundDownloader.h"
 #include "MinecraftVersions.h"
 #include <QSettings>
 
@@ -62,6 +63,7 @@ void MinecraftInstance::launch() {
         BasicMinecraftVersion ver = MainWindow::vers.versions[mcver];
         dl.downloadFile(ver.url, mcver);
     }
+
     MinecraftVersion m_ver;
     m_ver.loadFromFile(mcver);
 
@@ -75,6 +77,15 @@ void MinecraftInstance::launch() {
         }
     }
 
+    QString mcassets = MainWindow::cache_dir + "/assets/indexes/" + getVersion().first + ".json";
+    if (!Utils::fileExists(mcassets)) {
+        dl.downloadFile(m_ver.asset_index.url, mcassets);
+    }
+
+
+    MinecraftAssets m_assets;
+    BackgroundDownloader bgdl;
+
     QString jar_loc = MainWindow::data_dir + "/versions/" + m_ver.id + "/" + m_ver.id + ".jar";
     if (!Utils::fileExists(jar_loc)) {
         QDir().mkpath(jar_loc.section("/", 0, -2));
@@ -86,8 +97,8 @@ void MinecraftInstance::launch() {
     args = args.replace("${auth_player_name}", MainWindow::ses.profile.name);
     args = args.replace("${version_name}", m_ver.id);
     args = args.replace("${game_directory}", m_mcDir);
-    args = args.replace("${assets_root}", MainWindow::data_dir + "/libraries");
-    args = args.replace("${assets_index_name}", m_ver.asset_index);
+    args = args.replace("${assets_root}", MainWindow::cache_dir + "/assets/");
+    args = args.replace("${assets_index_name}", m_ver.asset_index.id);
     args = args.replace("${auth_uuid}", MainWindow::ses.profile.id);
     args = args.replace("${auth_access_token}", MainWindow::ses.access_token);
     if (MainWindow::ses.profile.legacy) args = args.replace("${user_type}", "legacy");

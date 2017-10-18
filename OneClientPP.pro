@@ -65,7 +65,8 @@ HEADERS += \
         Minecraft/Yggdrasil.h \
         Minecraft/AuthSession.h \
         getMemorySize.h \
-    Minecraft/MinecraftVersions.h
+    Minecraft/MinecraftVersions.h \
+    Minecraft/MojangInfo.h
 
 FORMS += \
         UI/MainWindow.ui \
