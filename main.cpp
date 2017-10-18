@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 
     QDir().mkpath(MainWindow::data_dir);
     QDir().mkpath(MainWindow::data_dir + "/instances");
+    QDir().mkpath(MainWindow::data_dir + "/natives");
     QDir().mkpath(MainWindow::config_dir);
     QDir().mkpath(MainWindow::cache_dir);
     QDir().mkpath(MainWindow::cache_dir + "/icons");

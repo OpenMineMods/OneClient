@@ -81,6 +81,7 @@ void MinecraftVersion::loadFromFile(QString file) {
         clib = libs[i].toObject();
 
         MinecraftFile file;
+        file.native = false;
         file.name = clib["name"].toString();
 
         MinecraftDownload dl;
@@ -91,14 +92,9 @@ void MinecraftVersion::loadFromFile(QString file) {
             downloads = clib["downloads"].toObject()["classifiers"].toObject()[key].toObject();
             QJsonArray rulesObject(clib["rules"].toArray());
             for(int i =0;i < rulesObject.size();i++) {
-                Rule rule;
-                rule.allow = rulesObject[i].toObject()["action"] == "allow" ? true : false;
-
-                QJsonArray array(rulesObject[i].toObject()["os"].toArray());
-                for(int j = 0; j < array.size();j++) {
-                    rule.allowed.append(array[i].toString());
-                }
-                file.rules.append(rule);
+                bool allow = rulesObject[i].toObject()["action"] == "allow" ? true : false;
+                file.native = allow;
+                if (rulesObject[i].toObject()["os"].toObject()["name"].toString() == OS_NAME) file.native = allow;
             }
         } else {
             downloads = clib["downloads"].toObject()["artifact"].toObject();

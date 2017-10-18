@@ -33,12 +33,6 @@ struct Rule {
     QStringList allowed;
 };
 
-struct Natives {
-    //extract excludes
-    QVector<Rule> rules;
-};
-
-
 struct MinecraftDownload {
     int size;
     QString sha1;
@@ -49,7 +43,7 @@ struct MinecraftDownload {
 struct MinecraftFile {
     QString name;
     MinecraftDownload download;
-    Natives natives;
+    bool native;
     QVector<Rule> rules;
 };
 

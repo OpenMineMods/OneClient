@@ -82,10 +82,13 @@ void MinecraftInstance::launch() {
             dl.downloadFile(f.download.url,path);
         }
         //Apparently the : needs to be ; on windows or something
-        if(!libraries.isEmpty())
-            libraries = libraries % ":" % path;
-        else
-            libraries = path;
+        if(!libraries.isEmpty()) libraries = libraries % ":" % path;
+        else libraries = path;
+        if (f.native) {
+            QString extract_path = MainWindow::data_dir % "/natives/" % m_ver.id;
+            QDir().mkpath(extract_path);
+            system(("unzip " + path + " -n -qq -d " + extract_path).toStdString().c_str());
+        }
     }
 
     QString mcassets = MainWindow::cache_dir + "/assets/indexes/" + getVersion().first + ".json";
@@ -122,13 +125,13 @@ void MinecraftInstance::launch() {
     }
     QStringList arguments;
 
-//    arguments.append("");
-    arguments.append("-Djava.library.path="%libraries);
-    arguments.append(m_ver.main_class);
+    QString natives_dir = MainWindow::data_dir % "/natives/" % m_ver.id;
+
+    arguments.append("-cp " + jar_loc + ":" + libraries + " " + m_ver.main_class);
     arguments.append("--username " % MainWindow::ses.profile.name);
     arguments.append("--version " % m_ver.id);
     arguments.append("--gameDir " % m_mcDir);
-    arguments.append("--assetsDir " % MainWindow::cache_dir + "/assets/");
+    arguments.append("--assetsDir " % MainWindow::cache_dir % "/assets/");
     arguments.append("--assetIndex" %  m_ver.asset_index.id);
     arguments.append("--uuid " %  MainWindow::ses.profile.id);
     arguments.append("--accessToken " % MainWindow::ses.access_token);
@@ -141,7 +144,7 @@ void MinecraftInstance::launch() {
 
     qDebug() << "Launching Instance " << getName();
     QProcess *process = new QProcess(this);
-    QString run = "/usr/lib/jvm/java-8-oracle/bin/java";
+    QString run = "/usr/lib/jvm/java-8-openjdk/bin/java";
     qDebug() << arguments;
-    process->startDetached(run,arguments);
+    system(("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + natives_dir + " java " + arguments.join(" ")).toStdString().c_str());
 }
