@@ -125,15 +125,17 @@ void MinecraftInstance::launch() {
     }
     QStringList arguments;
 
-    QString natives_dir = MainWindow::data_dir % "/natives/" % m_ver.id;
-    arguments << "-Djava.library.path=" % natives_dir;
+    // TODO: Detect java
+    QString run = "/usr/lib/jvm/java-8-openjdk/bin/java";
 
+    QString natives_dir = MainWindow::data_dir % "/natives/" % m_ver.id;
+
+    // Natives, needs to be the first argument
+    arguments << "-Djava.library.path=" % natives_dir;
     // For debugging purposes
     arguments << "-XshowSettings:properties";
-
     // ClassPath, contains <minecraft jar>:<library jars seperated by ":"> entry point
     arguments << "-cp" << jar_loc % ":" % libraries << m_ver.main_class;
-    // Natives
     // Information about the user
     arguments << "--username" << MainWindow::ses.profile.name;
     arguments << "--uuid" << MainWindow::ses.profile.id;
@@ -148,7 +150,13 @@ void MinecraftInstance::launch() {
     arguments.append("--versionType OneClient++");
 
     qDebug() << "Launching Instance " << getName();
-    QProcess *process = new QProcess(this);
-    QString run = "/usr/lib/jvm/java-8-openjdk/bin/java";
-    process->startDetached(run, arguments);
+    process = new QProcess(this);
+    connect(process, &QProcess::readyReadStandardOutput, this, &MinecraftInstance::outputChanged);
+    connect(process, &QProcess::readyReadStandardError, this, &MinecraftInstance::outputChanged);
+    process->start(run, arguments);
+}
+
+void MinecraftInstance::outputChanged() {
+    qDebug() << process->readAllStandardOutput();
+    qDebug() << process->readAllStandardError();
 }
