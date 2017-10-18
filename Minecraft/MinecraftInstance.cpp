@@ -126,25 +126,29 @@ void MinecraftInstance::launch() {
     QStringList arguments;
 
     QString natives_dir = MainWindow::data_dir % "/natives/" % m_ver.id;
+    arguments << "-Djava.library.path=" % natives_dir;
 
-    arguments.append("-cp " + jar_loc + ":" + libraries + " " + m_ver.main_class);
-    arguments.append("--username " % MainWindow::ses.profile.name);
-    arguments.append("--version " % m_ver.id);
-    arguments.append("--gameDir " % m_mcDir);
-    arguments.append("--assetsDir " % MainWindow::cache_dir % "/assets/");
-    arguments.append("--assetIndex" %  m_ver.asset_index.id);
-    arguments.append("--uuid " %  MainWindow::ses.profile.id);
-    arguments.append("--accessToken " % MainWindow::ses.access_token);
+    // For debugging purposes
+    arguments << "-XshowSettings:properties";
 
-    if (MainWindow::ses.profile.legacy)
-        arguments.append("--userType legacy");
-    else
-        arguments.append("--userType mojang");
+    // ClassPath, contains <minecraft jar>:<library jars seperated by ":"> entry point
+    arguments << "-cp" << jar_loc % ":" % libraries << m_ver.main_class;
+    // Natives
+    // Information about the user
+    arguments << "--username" << MainWindow::ses.profile.name;
+    arguments << "--uuid" << MainWindow::ses.profile.id;
+    arguments << "--accessToken" << MainWindow::ses.access_token;
+    arguments << "--userType" << (MainWindow::ses.profile.legacy ? "legacy" : "mojang");
+    // Information about the game
+    arguments << "--version" << m_ver.id;
+    arguments << "--gameDir" << m_mcDir;
+    arguments << "--assetsDir" << MainWindow::cache_dir % "/assets/";
+    arguments << "--assetsIndex" << m_ver.asset_index.id;
+    // Branding
     arguments.append("--versionType OneClient++");
 
     qDebug() << "Launching Instance " << getName();
     QProcess *process = new QProcess(this);
     QString run = "/usr/lib/jvm/java-8-openjdk/bin/java";
-    qDebug() << arguments;
-    system(("LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + natives_dir + " java " + arguments.join(" ")).toStdString().c_str());
+    process->startDetached(run, arguments);
 }
