@@ -17,6 +17,7 @@ public:
     Ui_MainWindow _ui;
 
     QString m_sSettingsFile;
+    static AuthSession ses;
 
     static QString config_dir;
     static QString data_dir;
@@ -46,7 +47,6 @@ private:
     QList<QWidget*> instance_widgets;
     QWidget ad_img;
     FlowLayout* fl;
-    AuthSession ses;
 
     int page;
     bool busy;

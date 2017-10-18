@@ -48,6 +48,7 @@ public:
     QVector<MinecraftFile> libraries;
 
     int total_size;
+    QString asset_index;
     MinecraftDownload client;
     MinecraftDownload server;
     QString id;

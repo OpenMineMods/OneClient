@@ -58,6 +58,7 @@ void MinecraftVersion::loadFromFile(QString file) {
     server.url = j_server["url"].toString();
 
     id = versionObject["id"].toString();
+    asset_index = versionObject["assetIndex"].toObject()["id"].toString();
     main_class = versionObject["mainClass"].toString();
     args = versionObject["minecraftArguments"].toString();
     release_time = versionObject["releaseTime"].toString();

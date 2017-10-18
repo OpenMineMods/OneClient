@@ -81,6 +81,19 @@ void MinecraftInstance::launch() {
         dl.downloadFile(m_ver.client.url, jar_loc);
     }
 
-    qDebug() << m_ver.args;
+    QString args(m_ver.args);
+
+    args = args.replace("${auth_player_name}", MainWindow::ses.profile.name);
+    args = args.replace("${version_name}", m_ver.id);
+    args = args.replace("${game_directory}", m_mcDir);
+    args = args.replace("${assets_root}", MainWindow::data_dir + "/libraries");
+    args = args.replace("${assets_index_name}", m_ver.asset_index);
+    args = args.replace("${auth_uuid}", MainWindow::ses.profile.id);
+    args = args.replace("${auth_access_token}", MainWindow::ses.access_token);
+    if (MainWindow::ses.profile.legacy) args = args.replace("${user_type}", "legacy");
+    else args = args.replace("${user_type}", "mojang");
+    args = args.replace("${version_type}", "OneClient++");
+
+    qDebug() << args;
     qDebug() << "Launching Instance " << getName();
 }
