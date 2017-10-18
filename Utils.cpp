@@ -90,3 +90,13 @@ QString Utils::formatNumber(double n, int decimals) {
     QString s = QString::number(m,'f',decimals).append(scale[exp/3]);
     return s;
 }
+
+void Utils::scaleImage(QString icon_filename, int scaleX, int scaleY) {
+    QImage img(icon_filename);
+    QPixmap p;
+    p = p.fromImage(img.scaled(scaleX, scaleY, Qt::IgnoreAspectRatio, Qt::FastTransformation));
+    QFile f(icon_filename);
+    f.open(QIODevice::WriteOnly);
+    p.save(&f);
+    f.close();
+}

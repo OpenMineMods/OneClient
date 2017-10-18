@@ -9,4 +9,8 @@ public:
     NewInstance(QWidget *parent = NULL);
 
     Ui_NewInstanceDialog _ui;
+
+    void createInstance();
+
+    void setIcon();
 };

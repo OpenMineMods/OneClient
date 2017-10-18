@@ -27,6 +27,8 @@ public:
     static bool fileExists(QString path);
 
     static QString formatNumber(double number, int decimals=1);
+
+    static void scaleImage(QString icon_filename, int scaleX = 128, int scaleY = 128);
 };
 
 #endif // UTILS_H

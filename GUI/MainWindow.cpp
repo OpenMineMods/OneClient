@@ -104,6 +104,7 @@ void MainWindow::rescanInstances() {
 void MainWindow::addInstance() {
     NewInstance dia;
     dia.exec();
+    rescanInstances();
 }
 
 void MainWindow::searchChanged() {
