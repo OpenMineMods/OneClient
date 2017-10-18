@@ -43,7 +43,30 @@ SOURCES += \
         Minecraft/Yggdrasil.cpp \
         Minecraft/AuthSession.cpp \
         getMemorySize.c \
-        Minecraft/MinecraftVersions.cpp
+        Minecraft/MinecraftVersions.cpp \
+    libraries/quazip/quazip/JlCompress.cpp \
+    libraries/quazip/quazip/qioapi.cpp \
+    libraries/quazip/quazip/quaadler32.cpp \
+    libraries/quazip/quazip/quacrc32.cpp \
+    libraries/quazip/quazip/quagzipfile.cpp \
+    libraries/quazip/quazip/quaziodevice.cpp \
+    libraries/quazip/quazip/quazip.cpp \
+    libraries/quazip/quazip/quazipdir.cpp \
+    libraries/quazip/quazip/quazipfile.cpp \
+    libraries/quazip/quazip/quazipfileinfo.cpp \
+    libraries/quazip/quazip/quazipnewinfo.cpp \
+    libraries/quazip/qztest/qztest.cpp \
+    libraries/quazip/qztest/testjlcompress.cpp \
+    libraries/quazip/qztest/testquachecksum32.cpp \
+    libraries/quazip/qztest/testquagzipfile.cpp \
+    libraries/quazip/qztest/testquaziodevice.cpp \
+    libraries/quazip/qztest/testquazip.cpp \
+    libraries/quazip/qztest/testquazipdir.cpp \
+    libraries/quazip/qztest/testquazipfile.cpp \
+    libraries/quazip/qztest/testquazipfileinfo.cpp \
+    libraries/quazip/qztest/testquazipnewinfo.cpp \
+    libraries/quazip/quazip/unzip.c \
+    libraries/quazip/quazip/zip.c
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -66,7 +89,33 @@ HEADERS += \
         Minecraft/AuthSession.h \
         getMemorySize.h \
         Minecraft/MinecraftVersions.h \
-        Minecraft/MojangInfo.h
+        Minecraft/MojangInfo.h \
+    libraries/quazip/quazip/crypt.h \
+    libraries/quazip/quazip/ioapi.h \
+    libraries/quazip/quazip/JlCompress.h \
+    libraries/quazip/quazip/quaadler32.h \
+    libraries/quazip/quazip/quachecksum32.h \
+    libraries/quazip/quazip/quacrc32.h \
+    libraries/quazip/quazip/quagzipfile.h \
+    libraries/quazip/quazip/quaziodevice.h \
+    libraries/quazip/quazip/quazip.h \
+    libraries/quazip/quazip/quazip_global.h \
+    libraries/quazip/quazip/quazipdir.h \
+    libraries/quazip/quazip/quazipfile.h \
+    libraries/quazip/quazip/quazipfileinfo.h \
+    libraries/quazip/quazip/quazipnewinfo.h \
+    libraries/quazip/quazip/unzip.h \
+    libraries/quazip/quazip/zip.h \
+    libraries/quazip/qztest/qztest.h \
+    libraries/quazip/qztest/testjlcompress.h \
+    libraries/quazip/qztest/testquachecksum32.h \
+    libraries/quazip/qztest/testquagzipfile.h \
+    libraries/quazip/qztest/testquaziodevice.h \
+    libraries/quazip/qztest/testquazip.h \
+    libraries/quazip/qztest/testquazipdir.h \
+    libraries/quazip/qztest/testquazipfile.h \
+    libraries/quazip/qztest/testquazipfileinfo.h \
+    libraries/quazip/qztest/testquazipnewinfo.h
 
 FORMS += \
         UI/MainWindow.ui \
@@ -76,3 +125,8 @@ FORMS += \
 
 RESOURCES += \
         Assets/icons.qrc
+
+DISTFILES += \
+    libraries/quazip/NEWS.txt \
+    libraries/quazip/CMakeLists.txt \
+    libraries/quazip/COPYING
