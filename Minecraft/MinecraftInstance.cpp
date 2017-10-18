@@ -75,5 +75,12 @@ void MinecraftInstance::launch() {
         }
     }
 
+    QString jar_loc = MainWindow::data_dir + "/versions/" + m_ver.id + "/" + m_ver.id + ".jar";
+    if (!Utils::fileExists(jar_loc)) {
+        QDir().mkpath(jar_loc.section("/", 0, -2));
+        dl.downloadFile(m_ver.client.url, jar_loc);
+    }
+
+    qDebug() << m_ver.args;
     qDebug() << "Launching Instance " << getName();
 }

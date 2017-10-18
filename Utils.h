@@ -5,6 +5,16 @@
 #include <QFile>
 #include <QLayout>
 
+#if defined(Q_OS_WIN)
+    const static QString OS_NAME = "windows";
+#elif defined(Q_OS_MACOS)
+    const static QString OS_NAME = "osx";
+#elif defined(Q_OS_LINUX)
+    const static QString OS_NAME = "linux";
+#else
+    const static QString OS_NAME = "unknown";
+#endif
+
 class Utils
 {
 public:

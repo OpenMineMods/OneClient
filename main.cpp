@@ -1,5 +1,6 @@
 #include "GUI/MainWindow.h"
 #include "Minecraft/MinecraftVersions.h"
+#include "Utils.h"
 #include <QApplication>
 #include <QDir>
 
@@ -52,6 +53,8 @@ int main(int argc, char *argv[])
     QDir().mkpath(MainWindow::cache_dir);
     QDir().mkpath(MainWindow::cache_dir + "/icons");
     QDir().mkpath(MainWindow::cache_dir + "/manifests");
+
+    qDebug() << "Running on" << OS_NAME;
 
     MainWindow w;
     w.show();

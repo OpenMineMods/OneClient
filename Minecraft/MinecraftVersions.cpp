@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "Utils.h"
 #include <QJsonArray>
 
 MinecraftVersions::MinecraftVersions() {
@@ -68,9 +69,19 @@ void MinecraftVersion::loadFromFile(QString file) {
     QJsonObject clib;
     for (int i = 0; i < libs.size(); ++i) {
         clib = libs[i].toObject();
-        downloads = clib["downloads"].toObject()["artifact"].toObject();
+
+        MinecraftFile file;
+        file.name = clib["name"].toString();
 
         MinecraftDownload dl;
+
+        if (clib.contains("natives")) {
+            if (!clib["natives"].toObject().contains(OS_NAME)) continue;
+            QString key = clib["natives"].toObject()[OS_NAME].toString();
+            downloads = clib["downloads"].toObject()["classifiers"].toObject()[key].toObject();
+        } else {
+            downloads = clib["downloads"].toObject()["artifact"].toObject();
+        }
 
         dl.size = downloads["size"].toInt();
         total_size += dl.size;
@@ -78,8 +89,6 @@ void MinecraftVersion::loadFromFile(QString file) {
         dl.url = downloads["url"].toString();
         dl.path = downloads["path"].toString();
 
-        MinecraftFile file;
-        file.name = clib["name"].toString();
         file.download = dl;
 
         libraries.append(file);
