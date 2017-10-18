@@ -30,12 +30,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
 
     MainWindow::vers.loadFromFile(cache_dir + "/minecraft.json");
 
-    QStringList instanceFolders = QDir(MainWindow::data_dir + "/instances").entryList();
-    QList<MinecraftInstance*> instances;
-    for (int i = 0; i < instanceFolders.length(); ++i) {
-        if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
-        instances.append(new MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
-    }
     ses.loadFromFile(MainWindow::data_dir + "/auth.dat");
 
     if (!ses.is_valid) {
@@ -60,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     connect(_ui.button_logout, &QPushButton::clicked, this, &MainWindow::logout);
     connect(_ui.button_login, &QPushButton::clicked, this, &MainWindow::login);
 
-    populateInstances(instances);
+    rescanInstances();
     Utils::clearLayout(_ui.pack_box);
     populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     connect(_ui.pack_search_button, &QPushButton::clicked, this, &MainWindow::searchChanged);
@@ -84,7 +78,14 @@ void MainWindow::populateBrowse(QVector<CurseMetaDB::CurseProject> projects) {
     _ui.pack_box->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
 
-void MainWindow::populateInstances(QList<MinecraftInstance*> instances) {
+void MainWindow::rescanInstances() {
+    QStringList instanceFolders = QDir(MainWindow::data_dir + "/instances").entryList();
+    QList<MinecraftInstance*> instances;
+    for (int i = 0; i < instanceFolders.length(); ++i) {
+        if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
+        instances.append(new MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
+    }
+
     Utils::clearLayout(fl);
 
     QMutableListIterator<MinecraftInstance*> iter(instances);
@@ -93,12 +94,17 @@ void MainWindow::populateInstances(QList<MinecraftInstance*> instances) {
         fl->addWidget(instance_widgets[instance_widgets.length()-1]);
     }
 
-    QWidget* addInstance = new QWidget();
-    addInstance->setStyleSheet(".QWidget { border-image: url(:/icons/new_instance.svg) }");
-    addInstance->setFixedSize(200, 200);
-    addInstance->setToolTip("Create New Instance");
-    fl->addWidget(addInstance);
+    makeInstance.setStyleSheet(".QPushButton { border-image: url(:/icons/new_instance.svg) }");
+    makeInstance.setFixedSize(200, 200);
+    makeInstance.setToolTip("Create New Instance");
+    connect(&makeInstance, &QPushButton::clicked, this, &MainWindow::addInstance);
+    fl->addWidget(&makeInstance);
 
+}
+
+void MainWindow::addInstance() {
+    QDir().mkpath(MainWindow::data_dir + "/instances/blah");
+    rescanInstances();
 }
 
 void MainWindow::searchChanged() {

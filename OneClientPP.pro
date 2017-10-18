@@ -43,7 +43,7 @@ SOURCES += \
         Minecraft/Yggdrasil.cpp \
         Minecraft/AuthSession.cpp \
         getMemorySize.c \
-    Minecraft/MinecraftVersions.cpp
+        Minecraft/MinecraftVersions.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -65,8 +65,8 @@ HEADERS += \
         Minecraft/Yggdrasil.h \
         Minecraft/AuthSession.h \
         getMemorySize.h \
-    Minecraft/MinecraftVersions.h \
-    Minecraft/MojangInfo.h
+        Minecraft/MinecraftVersions.h \
+        Minecraft/MojangInfo.h
 
 FORMS += \
         UI/MainWindow.ui \

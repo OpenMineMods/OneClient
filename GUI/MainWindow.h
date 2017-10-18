@@ -32,6 +32,8 @@ public slots:
     void logout();
     void login();
     void valueChanged();
+    void rescanInstances();
+    void addInstance();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -47,6 +49,7 @@ private:
     QList<QWidget*> instance_widgets;
     QWidget ad_img;
     FlowLayout* fl;
+    QPushButton makeInstance;
 
     int page;
     bool busy;
