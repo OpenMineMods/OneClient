@@ -19,10 +19,12 @@ public:
 
 public slots:
     void launch();
+    void outputChanged();
 
 private:
     void setupInstance();
 
     QString m_baseDir;
     QString m_mcDir;
+    QProcess *process;
 };
