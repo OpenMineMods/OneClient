@@ -5,6 +5,8 @@
 #include <QJsonDocument>
 #include "Utils.h"
 #include <QJsonArray>
+#include <QMap>
+#include <QVariantMap>
 
 MinecraftVersions::MinecraftVersions() {
 
@@ -59,7 +61,12 @@ void MinecraftVersion::loadFromFile(QString file) {
 
     id = versionObject["id"].toString();
     QJsonObject indexObject = versionObject["assetIndex"].toObject();
-    asset_index = AssetIndex(indexObject["id"].toString(),indexObject["sha1"].toString(),indexObject["url"].toString(),indexObject["totalsize"].toInt(),indexObject["size"].toInt());
+    asset_index = AssetIndex();
+    asset_index.id = indexObject["id"].toString();
+    asset_index.sha1 = indexObject["sha1"].toString();
+    asset_index.url = indexObject["url"].toString();
+    asset_index.totalsize = indexObject["totalsize"].toInt();
+    asset_index.size = indexObject["size"].toInt();
     main_class = versionObject["mainClass"].toString();
     args = versionObject["minecraftArguments"].toString();
     release_time = versionObject["releaseTime"].toString();

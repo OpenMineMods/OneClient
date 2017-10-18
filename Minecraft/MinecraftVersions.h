@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QMap>
+
 #include <QVector>
 
 enum ReleaseType {
@@ -40,10 +41,6 @@ struct MinecraftFile {
 };
 
 struct AssetIndex {
-    AssetIndex();
-    AssetIndex(QString id, QString sha1, QString url, int totalsize, int size):
-        id(id), sha1(sha1), url(url), totalsize(totalsize), size(size) {}
-    ~AssetIndex();
     QString id;
     QString sha1;
     QString url;
@@ -79,6 +76,6 @@ struct MinecraftAsset {
 class MinecraftAssets {
 public:
     void loadFromFile(QString file);
-//    QMap<QString,MinecraftAsset> objects;
+    QMap<QString,MinecraftAsset> objects;
 };
 
