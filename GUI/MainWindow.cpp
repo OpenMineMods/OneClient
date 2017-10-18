@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <QStandardPaths>
 #include "getMemorySize.h"
+#include "InstanceWindow.h"
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(parent, flags) {
     _ui.setupUi(this);
@@ -100,12 +101,14 @@ void MainWindow::rescanInstances() {
 }
 
 void MainWindow::addInstance() {
-    QDir().mkpath(MainWindow::data_dir + "/instances/blah");
-    rescanInstances();
+    InstanceWindow w;
+    w.show();
+//    QDir().mkpath(MainWindow::data_dir + "/instances/blah");
+//    rescanInstances();
 }
 
 void MainWindow::searchChanged() {
-     Utils::clearLayout(_ui.pack_box);
+    Utils::clearLayout(_ui.pack_box);
     if (_ui.pack_search->text() == "") {
         populateBrowse(MainWindow::db.search("*", CurseMetaDB::MODPACK));
     } else {
