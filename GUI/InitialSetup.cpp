@@ -55,7 +55,7 @@ void InitialSetupWindow::nextTab() {
         dlu.downloadFile("https://openminemods.digitalfishfun.com/raw_cleaned.json.xz", MainWindow::cache_dir + "/meta.json.xz");
         system(("xz -d " + MainWindow::cache_dir + "/meta.json.xz").toStdString().c_str());
         _ui.prog_label->setText("Downloading Minecraft version manifest");
-        dlu.downloadFile(MojangInfo::VERSION_MANIFEST, MainWindow::cache_dir + "/minecraft.json");
+        dlu.downloadFile(VERSION_MANIFEST, MainWindow::cache_dir + "/minecraft.json");
         done(1);
         return;
     }

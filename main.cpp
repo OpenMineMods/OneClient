@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     QDir().mkpath(MainWindow::cache_dir + "/assets/objects");
 
     qDebug() << "Running on" << OS_NAME;
-
+    qDebug() << "Data Dir" << MainWindow::data_dir;
     MainWindow w;
     w.show();
 
