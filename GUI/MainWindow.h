@@ -35,9 +35,6 @@ public slots:
     void rescanInstances();
     void addInstance();
 
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
-
 private:
 
     void populateBrowse(QVector<CurseMetaDB::CurseProject> projects);
@@ -47,7 +44,6 @@ private:
     QString conf_file;
     QList<QWidget*> browse_widgets;
     QList<QWidget*> instance_widgets;
-    QWidget ad_img;
     FlowLayout* fl;
 
     int page;
