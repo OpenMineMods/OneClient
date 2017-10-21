@@ -24,7 +24,7 @@ void NewInstance::setIcon() {
     filter << "*.jpg";
     filter << "*.jpeg";
     d.setNameFilters(filter);
-    d.exec();
+    if (!d.exec()) return;
     QString image_file(d.selectedFiles().first());
 
     QFileInfo icon(image_file);
