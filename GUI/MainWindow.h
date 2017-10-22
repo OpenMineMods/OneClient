@@ -34,6 +34,7 @@ public slots:
     void valueChanged();
     void rescanInstances();
     void addInstance();
+    void clearRam();
 
 private:
 

@@ -15,4 +15,13 @@ public:
 
     Ui_InstanceWidget _ui;
     QString icon_filename;
+
+private slots:
+    void launchClicked();
+
+signals:
+    void instanceLaunching();
+
+private:
+    MinecraftInstance* m_instance;
 };

@@ -122,6 +122,10 @@ void MinecraftInstance::launch() {
     }
     QStringList arguments;
 
+    // Clear RAM up
+    // TODO: Reload after instance exists
+    MainWindow::db.clearRam();
+
     // TODO: Detect java
     QString run = "/usr/lib/jvm/java-8-openjdk/bin/java";
 

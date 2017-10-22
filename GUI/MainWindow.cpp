@@ -64,6 +64,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags) : QMainWindow(par
     _ui.scroll_box_w->setLayout(fl);
 }
 
+void MainWindow::clearRam() {
+    qInfo() << "Clearing up RAM for Minecraft";
+    browse_widgets.clear();
+    Utils::clearLayout(_ui.pack_box);
+}
+
 void MainWindow::populateBrowse(QVector<CurseMetaDB::CurseProject> projects) {
     browse_widgets.clear();
     Utils::clearLayout(_ui.pack_box);
@@ -88,6 +94,7 @@ void MainWindow::rescanInstances() {
     QMutableListIterator<MinecraftInstance*> iter(instances);
     while (iter.hasNext()) {
         instance_widgets.append(new InstanceWidget(iter.next()));
+        connect(instance_widgets[instance_widgets.length()-1], SIGNAL(instanceLaunching()), this, SLOT(clearRam()));
         fl->addWidget(instance_widgets[instance_widgets.length()-1]);
     }
 

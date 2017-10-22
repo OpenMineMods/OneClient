@@ -46,6 +46,8 @@ public:
 
     QVector<CurseProject> search(const QString query, const ProjectType projectType, const int limit = 25);
 
+    void clearRam();
+
     static CurseProject project_from_json(const QJsonObject &j);
     static CurseFile file_from_json(const QJsonObject &j);
 

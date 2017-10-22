@@ -30,6 +30,11 @@ void CurseMetaDB::load(QByteArray meta) {
     qDebug() << "Loaded" << projects.size() << "projects and" << files.size() << "files.";
 }
 
+void CurseMetaDB::clearRam() {
+    projects.clear();
+    files.clear();
+}
+
 QVector<CurseMetaDB::CurseProject> CurseMetaDB::search(const QString query, const ProjectType projectType, const int limit) {
     QVector<CurseProject> results;
     QVector<QPair<CurseProject, int>> candidates;
