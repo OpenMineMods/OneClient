@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addVersionOption();
 
-    QCommandLineOption targetDirectoryOption(QStringList() << "t" << "target-directory",
+    QCommandLineOption targetDirectoryOption(QStringList() << "d" << "directory",
                                              "Directory to use for storage",
                                              "directory");
     parser.addOption(targetDirectoryOption);
