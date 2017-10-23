@@ -45,21 +45,8 @@ SOURCES += \
         Minecraft/AuthSession.cpp \
         getMemorySize.c \
         Minecraft/MinecraftVersions.cpp \
-    libraries/quazip/quazip/JlCompress.cpp \
-    libraries/quazip/quazip/qioapi.cpp \
-    libraries/quazip/quazip/quaadler32.cpp \
-    libraries/quazip/quazip/quacrc32.cpp \
-    libraries/quazip/quazip/quagzipfile.cpp \
-    libraries/quazip/quazip/quaziodevice.cpp \
-    libraries/quazip/quazip/quazip.cpp \
-    libraries/quazip/quazip/quazipdir.cpp \
-    libraries/quazip/quazip/quazipfile.cpp \
-    libraries/quazip/quazip/quazipfileinfo.cpp \
-    libraries/quazip/quazip/quazipnewinfo.cpp \
-    libraries/quazip/quazip/unzip.c \
-    libraries/quazip/quazip/zip.c \
-    GUI/InstanceWindow.cpp \
-    GUI/NewInstance.cpp
+        GUI/InstanceWindow.cpp \
+        GUI/NewInstance.cpp
 
 HEADERS += \
         GUI/MainWindow.h \
@@ -83,24 +70,8 @@ HEADERS += \
         getMemorySize.h \
         Minecraft/MinecraftVersions.h \
         Minecraft/MojangInfo.h \
-    libraries/quazip/quazip/crypt.h \
-    libraries/quazip/quazip/ioapi.h \
-    libraries/quazip/quazip/JlCompress.h \
-    libraries/quazip/quazip/quaadler32.h \
-    libraries/quazip/quazip/quachecksum32.h \
-    libraries/quazip/quazip/quacrc32.h \
-    libraries/quazip/quazip/quagzipfile.h \
-    libraries/quazip/quazip/quaziodevice.h \
-    libraries/quazip/quazip/quazip.h \
-    libraries/quazip/quazip/quazip_global.h \
-    libraries/quazip/quazip/quazipdir.h \
-    libraries/quazip/quazip/quazipfile.h \
-    libraries/quazip/quazip/quazipfileinfo.h \
-    libraries/quazip/quazip/quazipnewinfo.h \
-    libraries/quazip/quazip/unzip.h \
-    libraries/quazip/quazip/zip.h \
-    GUI/InstanceWindow.h \
-    GUI/NewInstance.h
+        GUI/InstanceWindow.h \
+        GUI/NewInstance.h
 
 FORMS += \
         UI/MainWindow.ui \
@@ -112,10 +83,5 @@ FORMS += \
 
 RESOURCES += \
         Assets/icons.qrc
-
-DISTFILES += \
-    libraries/quazip/NEWS.txt \
-    libraries/quazip/CMakeLists.txt \
-    libraries/quazip/COPYING
 
 LIBS+=-lz
