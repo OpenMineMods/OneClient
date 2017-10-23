@@ -86,7 +86,7 @@ void MainWindow::rescanInstances() {
     QList<MinecraftInstance*> instances;
     for (int i = 0; i < instanceFolders.length(); ++i) {
         if (instanceFolders[i] == "." || instanceFolders[i] == "..") continue;
-        instances.append(new MinecraftInstance(MainWindow::data_dir + "/instances/" + instanceFolders[i]));
+        instances.append(new MinecraftInstance(instanceFolders[i]));
     }
 
     Utils::clearLayout(fl);

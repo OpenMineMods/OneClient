@@ -10,9 +10,9 @@
 
 using namespace std;
 
-MinecraftInstance::MinecraftInstance(QString baseDir, QObject* parent) : QObject(parent) {
-    m_baseDir = baseDir;
-    m_mcDir = baseDir + "/minecraft";
+MinecraftInstance::MinecraftInstance(QString instanceName, QObject* parent) : QObject(parent) {
+    m_baseDir = MainWindow::data_dir + "/instances/" + instanceName;
+    m_mcDir = m_baseDir + "/minecraft";
 
     QSettings settings(m_baseDir + "/instance.ini", QSettings::NativeFormat);
 
